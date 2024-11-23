@@ -7,13 +7,10 @@ import (
 	"shenyue-gin/app/service/blog/model/db"
 )
 
-func (s *Service) SaveUser(ctx context.Context, req *api.User) (err error) {
+func (s *Service) SaveUser(ctx context.Context, req *api.UserReq) (err error) {
 	user := &db.User{
 		Nick:     req.Nick,
 		Password: req.Password,
-		Email:    req.Email,
-		QQ:       req.QQ,
-		Wechat:   req.Wechat,
 	}
 	err = s.dao.Save(ctx, user)
 	if err != nil {

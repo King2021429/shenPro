@@ -1,6 +1,6 @@
 package api
 
-type User struct {
+type UserReq struct {
 	Nick     string `json:"nick" binding:"required"`
 	Password string `json:"password"`
 	Email    string `json:"email"`

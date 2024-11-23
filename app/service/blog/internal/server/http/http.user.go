@@ -26,7 +26,7 @@ func save(ctx *gin.Context) {
 }
 
 func register(ctx *gin.Context) {
-	var user api.User
+	var user api.UserReq
 	err := ctx.ShouldBindJSON(&user)
 	if err != nil {
 		fmt.Println(err)
