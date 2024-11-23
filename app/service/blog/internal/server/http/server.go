@@ -15,7 +15,6 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	ug := e.Group("/user")
 	{
 		ug.GET("find", find)
-		ug.GET("save", save)
 		ug.POST("register", register)
 	}
 	return e

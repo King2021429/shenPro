@@ -13,18 +13,6 @@ func find(ctx *gin.Context) {
 	ctx.JSON(200, name)
 }
 
-func save(ctx *gin.Context) {
-	id := ctx.Query("id")
-	name := ctx.Query("name")
-	address := ctx.DefaultQuery("address", "北京")
-
-	ctx.JSON(200, gin.H{
-		"id":      id,
-		"name":    name,
-		"address": address,
-	})
-}
-
 func register(ctx *gin.Context) {
 	var user api.UserReq
 	err := ctx.ShouldBindJSON(&user)
