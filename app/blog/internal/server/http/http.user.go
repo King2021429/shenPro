@@ -3,7 +3,7 @@ package http
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"shenyue-gin/app/service/blog/model/api"
+	"shenyue-gin/app/blog/model/api"
 )
 
 func find(ctx *gin.Context) {

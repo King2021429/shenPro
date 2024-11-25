@@ -3,7 +3,7 @@ package dao
 import (
 	"context"
 	"log"
-	"shenyue-gin/app/service/blog/model/db"
+	"shenyue-gin/app/blog/model/db"
 )
 
 // Save 测试

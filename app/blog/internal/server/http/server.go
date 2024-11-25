@@ -2,7 +2,7 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
-	"shenyue-gin/app/service/blog/internal/service"
+	"shenyue-gin/app/blog/internal/service"
 )
 
 var svc *service.Service

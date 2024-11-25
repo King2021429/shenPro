@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"shenyue-gin/app/service/blog/model/api"
-	"shenyue-gin/app/service/blog/model/db"
+	"shenyue-gin/app/blog/model/api"
+	"shenyue-gin/app/blog/model/db"
 )
 
 func (s *Service) SaveUser(ctx context.Context, req *api.UserReq) (err error) {
