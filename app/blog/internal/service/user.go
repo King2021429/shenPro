@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
 	"shenyue-gin/app/blog/model/api"
 	"shenyue-gin/app/blog/model/db"
 )
@@ -11,6 +10,8 @@ func (s *Service) SaveUser(ctx context.Context, req *api.UserReq) (err error) {
 	user := &db.User{
 		Nick:     req.Nick,
 		Password: req.Password,
+		Email:    req.Email,
+		QQ:       req.QQ,
 	}
 	err = s.dao.Save(ctx, user)
 	if err != nil {
@@ -19,6 +20,10 @@ func (s *Service) SaveUser(ctx context.Context, req *api.UserReq) (err error) {
 	return
 }
 
-func (s *Service) GetUserById(c *gin.Context) {
+func (s *Service) GetUserById(ctx context.Context) (err error) {
+	return
+}
+
+func (s *Service) GetUserByMobile(ctx context.Context) (err error) {
 	return
 }

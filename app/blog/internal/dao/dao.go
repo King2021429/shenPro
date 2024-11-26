@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"fmt"
+	"github.com/go-redis/redis"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -10,12 +11,14 @@ import (
 
 // Dao
 type Dao struct {
-	db *gorm.DB
+	db  *gorm.DB
+	rdb *redis.Client
 }
 
 func NewDao() (dao *Dao) {
 	dao = &Dao{
-		db: NewGorm(),
+		db:  NewGorm(),
+		rdb: NewRedis(),
 	}
 	return dao
 }
@@ -35,6 +38,15 @@ func NewGorm() (newdb *gorm.DB) {
 		panic("连接数据库失败, error=" + err.Error())
 	}
 	return newdb
+}
+
+func NewRedis() (rdb *redis.Client) {
+	rdb = redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	return rdb
 }
 
 // Close close the resource.

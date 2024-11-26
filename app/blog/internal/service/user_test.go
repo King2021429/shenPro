@@ -1,0 +1,23 @@
+package service
+
+import (
+	"fmt"
+	"github.com/smartystreets/goconvey/convey"
+	"shenyue-gin/app/blog/model/api"
+	"testing"
+)
+
+func TestService_SaveUser_(t *testing.T) {
+	convey.Convey("TestService_SaveUser_", t, func() {
+		err := TestSrv.SaveUser(TestCtx, &api.UserReq{
+			Nick:     "100",
+			Password: "TestService_SaveUser_",
+			Email:    "test@gmail.com",
+			QQ:       1296436311,
+		})
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	})
+}

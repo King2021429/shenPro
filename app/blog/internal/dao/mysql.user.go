@@ -8,7 +8,7 @@ import (
 
 // Save 测试
 func (d *Dao) Save(ctx context.Context, user *db.User) (err error) {
-	reply := d.db.Select("nick", "password").Create(user)
+	reply := d.db.Select("nick", "password", "email", "qq").Create(user)
 	if reply.Error != nil {
 		log.Println("insert fail : ", err)
 	}
