@@ -13,6 +13,7 @@ func NewService() (s *Service) {
 	s = &Service{
 		dao: dao.NewDao(),
 	}
+	s.NewCorn()
 	return s
 }
 

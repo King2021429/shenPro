@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	// 初始化service
+	// 初始化service service里面会初始化dao
 	newService := service.NewService()
 	// 初始化http路由
 	e := http.InitHttpRouter(newService)
