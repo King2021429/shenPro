@@ -27,3 +27,13 @@ func (s *Service) GetUserById(ctx context.Context) (err error) {
 func (s *Service) GetUserByMobile(ctx context.Context) (err error) {
 	return
 }
+
+func (s *Service) SendUserEmail(ctx context.Context) (err error) {
+	res, _ := s.dao.SelectAllEmail(ctx)
+	go func() {
+		for _, email := range res {
+			s.dao.SendEmail(ctx, email, "测试", "标题")
+		}
+	}()
+	return
+}

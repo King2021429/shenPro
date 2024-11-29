@@ -10,6 +10,11 @@ func find(ctx *gin.Context) {
 	id := ctx.Query("id")
 	name := ctx.Query("name")
 	fmt.Println(id, name)
+	err := svc.SendUserEmail(ctx.Request.Context())
+	if err != nil {
+		fmt.Println(err)
+		ctx.JSON(200, err)
+	}
 	ctx.JSON(200, name)
 }
 

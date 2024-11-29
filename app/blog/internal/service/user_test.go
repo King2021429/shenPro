@@ -21,3 +21,13 @@ func TestService_SaveUser_(t *testing.T) {
 		}
 	})
 }
+
+func TestService_SendUserEmail_(t *testing.T) {
+	convey.Convey("TestService_SendUserEmail_", t, func() {
+		err := TestSrv.SendUserEmail(TestCtx)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	})
+}
