@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"shenyue-gin/app/blog/internal/server/http"
-	"shenyue-gin/app/blog/internal/service"
+	"shenyue-gin/app/blog/server"
+	"shenyue-gin/app/blog/service"
 	"syscall"
 )
 
@@ -13,7 +13,7 @@ func main() {
 	// 初始化service service里面会初始化dao
 	newService := service.NewService()
 	// 初始化http路由
-	e := http.InitHttpRouter(newService)
+	e := server.InitHttpRouter(newService)
 	// 监听并在 0.0.0.0:8080 上启动服务
 	err := e.Run()
 	if err != nil {

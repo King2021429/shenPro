@@ -1,16 +1,17 @@
-package http
+package api
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"shenyue-gin/app/blog/model/api"
+	"shenyue-gin/app/blog/server"
 )
 
-func find(ctx *gin.Context) {
+func Find(ctx *gin.Context) {
 	id := ctx.Query("id")
 	name := ctx.Query("name")
 	fmt.Println(id, name)
-	err := svc.SendUserEmail(ctx.Request.Context())
+	err := server.Svc.SendUserEmail(ctx.Request.Context())
 	if err != nil {
 		fmt.Println(err)
 		ctx.JSON(200, err)
@@ -18,13 +19,13 @@ func find(ctx *gin.Context) {
 	ctx.JSON(200, name)
 }
 
-func register(ctx *gin.Context) {
+func Register(ctx *gin.Context) {
 	var user api.UserReq
 	err := ctx.ShouldBindJSON(&user)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = svc.SaveUser(ctx.Request.Context(), &user)
+	err = server.Svc.SaveUser(ctx.Request.Context(), &user)
 	if err != nil {
 		fmt.Println(err)
 		ctx.JSON(200, err)
