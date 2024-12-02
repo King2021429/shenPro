@@ -7,15 +7,15 @@ import (
 )
 
 const (
-	_emailUser = "openhome-noreply@bilibili.com"
-	_emailPwd  = "J?!v0l$%1rE+dTzO5y"
-	_emailHost = "smtp.partner.outlook.cn"
-	_emailPort = 587
+	//_emailUser = "openhome-noreply@bilibili.com"
+	//_emailPwd  = "J?!v0l$%1rE+dTzO5y"
+	//_emailHost = "smtp.partner.outlook.cn"
+	//_emailPort = 587
 	// 要去邮箱打开设置 并获取授权码
-	//_emailUser = "18683565829@163.com"
-	//_emailPwd  = "HDfw5LRPKFKevU6E"
-	//_emailHost = "smtp.163.com"
-	//_emailPort = 25
+	_emailUser = "18683565829@163.com"
+	_emailPwd  = "HDfw5LRPKFKevU6E"
+	_emailHost = "smtp.163.com"
+	_emailPort = 25
 )
 
 // GetDialer 获取邮箱连接
