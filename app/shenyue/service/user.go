@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
-	"shenyue-gin/app/blog/model/api"
-	"shenyue-gin/app/blog/model/db"
+	"shenyue-gin/app/shenyue/model/api"
+	"shenyue-gin/app/shenyue/model/db"
 	"sync"
 )
 

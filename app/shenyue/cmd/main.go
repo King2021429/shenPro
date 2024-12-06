@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"shenyue-gin/app/blog/api"
-	"shenyue-gin/app/blog/service"
+	"shenyue-gin/app/shenyue/api"
+	"shenyue-gin/app/shenyue/service"
 	"syscall"
 )
 

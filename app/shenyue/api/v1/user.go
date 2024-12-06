@@ -1,18 +1,19 @@
-package api
+package v1
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"shenyue-gin/app/blog/middleware"
-	"shenyue-gin/app/blog/model/api"
+	server "shenyue-gin/app/shenyue/api"
+	"shenyue-gin/app/shenyue/middleware"
+	"shenyue-gin/app/shenyue/model/api"
 )
 
 func Find(ctx *gin.Context) {
 	id := ctx.Query("id")
 	name := ctx.Query("name")
 	fmt.Println(id, name)
-	err := Svc.SendUserEmail(ctx.Request.Context())
+	err := server.Svc.SendUserEmail(ctx.Request.Context())
 	if err != nil {
 		fmt.Println(err)
 		ctx.JSON(200, err)
@@ -26,7 +27,7 @@ func Register(ctx *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = Svc.SaveUser(ctx.Request.Context(), &user)
+	err = server.Svc.SaveUser(ctx.Request.Context(), &user)
 	if err != nil {
 		fmt.Println(err)
 		ctx.JSON(200, err)
@@ -56,5 +57,13 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"token": token})
 	} else {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "用户名或密码错误"})
+		//c.JSON(
+		//	http.StatusOK, gin.H{
+		//		"status":  code,
+		//		"data":    data,
+		//		"message": errmsg.GetErrMsg(code),
+		//	},
+		//)
 	}
+
 }

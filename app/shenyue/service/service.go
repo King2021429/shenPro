@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"shenyue-gin/app/blog/dao"
+	"shenyue-gin/app/shenyue/dao"
 )
 
 type Service struct {

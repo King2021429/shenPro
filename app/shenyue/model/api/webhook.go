@@ -18,8 +18,20 @@ type Content struct {
 	StateDesc  string `json:"state_desc,omitempty"`
 }
 
-// SendMessageData 测试
-type SendMessageData struct {
+// ConversationCloseInfo 定义了关闭会话的信息结构
+type CloseMsg struct {
+	ConversationID int64  `json:"conversation_id"`
+	CloseType      int    `json:"close_type"`
+	CloseTime      int64  `json:"close_time"` // 假设这是一个UNIX时间戳，单位为秒
+	MainOpenID     string `json:"main_open_id"`
+	UserOpenID     string `json:"user_open_id"`
+}
+
+type EnterDirectMsg struct {
+}
+
+// SendMsg
+type SendMsg struct {
 	ConversationID int64  `json:"conversation_id"`
 	Extra          string `json:"extra"`
 	MsgContent     string `json:"msg_content"`

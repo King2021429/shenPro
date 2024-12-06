@@ -3,7 +3,7 @@ package service
 import (
 	"fmt"
 	"github.com/smartystreets/goconvey/convey"
-	"shenyue-gin/app/blog/model/api"
+	"shenyue-gin/app/shenyue/model/api"
 	"testing"
 )
 
