@@ -15,6 +15,7 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	e.Use(CORS())
 	e.POST("/test/id/:id", TestId)
 	e.POST("/test/path/*path", TestPath)
+	e.POST("/webhook", Webhook)
 	ug := e.Group("/user")
 	{
 		ug.GET("find", Find)

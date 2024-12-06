@@ -14,7 +14,7 @@ func main() {
 	newService := service.NewService()
 	// 初始化http路由
 	e := api.InitHttpRouter(newService)
-	// 监听并在 0.0.0.0:8080 上启动服务
+	// 监听并在 0.0.0.0:8001 上启动服务
 	err := e.Run(":8001")
 	if err != nil {
 		return

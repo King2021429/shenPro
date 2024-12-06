@@ -40,13 +40,11 @@ func Login(c *gin.Context) {
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}
-
 	// 从请求体中获取登录信息
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	// 假设这里进行了数据库验证等操作，验证用户名和密码是否正确，这里只是示例，直接返回成功
 	if user.Username == "testuser" && user.Password == "testpassword" {
 		// 生成Token
@@ -55,7 +53,6 @@ func Login(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
-
 		c.JSON(http.StatusOK, gin.H{"token": token})
 	} else {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "用户名或密码错误"})
