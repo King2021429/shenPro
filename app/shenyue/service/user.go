@@ -3,13 +3,12 @@ package service
 import (
 	"context"
 	"fmt"
-	"shenyue-gin/app/shenyue/model/api"
-	"shenyue-gin/app/shenyue/model/db"
+	"shenyue-gin/app/shenyue/model"
 	"sync"
 )
 
-func (s *Service) SaveUser(ctx context.Context, req *api.UserReq) (err error) {
-	user := &db.User{
+func (s *Service) SaveUser(ctx context.Context, req *model.UserReq) (err error) {
+	user := &model.User{
 		Nick:     req.Nick,
 		Password: req.Password,
 		Email:    req.Email,

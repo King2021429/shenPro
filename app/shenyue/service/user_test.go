@@ -3,13 +3,13 @@ package service
 import (
 	"fmt"
 	"github.com/smartystreets/goconvey/convey"
-	"shenyue-gin/app/shenyue/model/api"
+	"shenyue-gin/app/shenyue/model"
 	"testing"
 )
 
 func TestService_SaveUser_(t *testing.T) {
 	convey.Convey("TestService_SaveUser_", t, func() {
-		err := TestSrv.SaveUser(TestCtx, &api.UserReq{
+		err := TestSrv.SaveUser(TestCtx, &model.UserReq{
 			Nick:     "100",
 			Password: "TestService_SaveUser_",
 			Email:    "test@gmail.com",

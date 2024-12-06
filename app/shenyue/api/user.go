@@ -1,19 +1,18 @@
-package v1
+package api
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	server "shenyue-gin/app/shenyue/api"
 	"shenyue-gin/app/shenyue/middleware"
-	"shenyue-gin/app/shenyue/model/api"
+	"shenyue-gin/app/shenyue/model"
 )
 
 func Find(ctx *gin.Context) {
 	id := ctx.Query("id")
 	name := ctx.Query("name")
 	fmt.Println(id, name)
-	err := server.Svc.SendUserEmail(ctx.Request.Context())
+	err := Svc.SendUserEmail(ctx.Request.Context())
 	if err != nil {
 		fmt.Println(err)
 		ctx.JSON(200, err)
@@ -22,12 +21,12 @@ func Find(ctx *gin.Context) {
 }
 
 func Register(ctx *gin.Context) {
-	var user api.UserReq
+	var user model.UserReq
 	err := ctx.ShouldBindJSON(&user)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = server.Svc.SaveUser(ctx.Request.Context(), &user)
+	err = Svc.SaveUser(ctx.Request.Context(), &user)
 	if err != nil {
 		fmt.Println(err)
 		ctx.JSON(200, err)

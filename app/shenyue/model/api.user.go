@@ -1,4 +1,4 @@
-package api
+package model
 
 type UserReq struct {
 	Nick     string `json:"nick" binding:"required"`
