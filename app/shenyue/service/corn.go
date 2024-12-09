@@ -7,8 +7,8 @@ import (
 
 func (s *Service) NewCorn() {
 	c := cron.New()
-	err := c.AddFunc("0 * * * *", func() {
-		fmt.Println("执行每天 0 点的任务")
+	err := c.AddFunc("0 0 * * *", func() {
+		fmt.Println("hello")
 	})
 	if err != nil {
 		fmt.Println(err)
