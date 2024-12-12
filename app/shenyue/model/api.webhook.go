@@ -18,16 +18,42 @@ type Content struct {
 	StateDesc  string `json:"state_desc,omitempty"`
 }
 
-// ConversationCloseInfo 定义了关闭会话的信息结构
+//{
+//    "content": {
+//        "conversation_id": 115987617718784,
+//        "close_type": 3,
+//        "close_time": 1733405507,
+//        "main_open_id": "d4a2b0d73cba4ceab6b835c5fc00a46a",
+//        "user_open_id": "86345135749f4f36b3210bb0e517e431"
+//    },
+//    "event": "CLOSE_MSG",
+//    "timestamp": "2024-12-01 00:00:00"
+//}
+
 type CloseMsg struct {
 	ConversationID int64  `json:"conversation_id"`
-	CloseType      int    `json:"close_type"`
-	CloseTime      int64  `json:"close_time"` // 假设这是一个UNIX时间戳，单位为秒
+	CloseType      int64  `json:"close_type"`
+	CloseTime      int64  `json:"close_time"`
 	MainOpenID     string `json:"main_open_id"`
 	UserOpenID     string `json:"user_open_id"`
 }
 
 type EnterDirectMsg struct {
+	ConversationID int64  `json:"conversation_id"`
+	UserOpenID     string `json:"user_open_id"`
+	UserNick       string `json:"user_nick"`
+	UserFace       string `json:"user_face"`
+	Extra          string `json:"extra"`
+	MsgContent     struct {
+		Message string `json:"message"`
+		Type    int    `json:"type"`
+	} `json:"msg_content"`
+	MsgKey     int64 `json:"msg_key"`
+	MsgSource  int   `json:"msg_source"`
+	MsgStatus  int   `json:"msg_status"`
+	MsgType    int   `json:"msg_type"`
+	SenderType int   `json:"sender_type"`
+	Ts         int64 `json:"ts"`
 }
 
 // SendMsg

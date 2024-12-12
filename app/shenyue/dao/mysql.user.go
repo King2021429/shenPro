@@ -48,7 +48,7 @@ func (d *Dao) DeleteUser(ctx context.Context, id uint) error {
 	}
 
 	// 执行软删除
-	if err := d.db.Unscoped().Delete(&user, id).Error; err != nil {
+	if err := d.db.Delete(&user, id).Error; err != nil {
 		return err // 如果删除失败，返回错误
 	}
 

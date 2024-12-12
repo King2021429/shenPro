@@ -15,6 +15,8 @@ func Webhook(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(msg.Event)
+	fmt.Println(msg.Timestamp)
 
 	switch msg.Event {
 	case model.EventSendMsg:
@@ -33,13 +35,13 @@ func Webhook(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"message": model.EventDirectMsg})
 	case model.EventCloseMSG:
 		var c *model.CloseMsg
-		if err = json.Unmarshal(msg.Content, c); err != nil {
+		if err = json.Unmarshal(msg.Content, &c); err != nil {
 			fmt.Println(err)
 		}
 		_, _ = Svc.WebHookCloseMsg(ctx, c, msg)
 		ctx.JSON(http.StatusOK, gin.H{"message": model.EventCloseMSG})
 	default:
-		ctx.JSON(http.StatusBadRequest, msg.Content)
+		ctx.JSON(http.StatusOK, msg.Content)
 		return
 	}
 
