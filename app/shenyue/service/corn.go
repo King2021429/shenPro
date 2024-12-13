@@ -21,7 +21,7 @@ func (s *Service) NewCorn() {
 			s.SendOrder(model.Title2, model.Url1)
 		}
 	})
-	err = c.AddFunc("0 0 21 * * *", func() {
+	err = c.AddFunc("0 30 20 * * *", func() {
 		if utils.IsWorkingDay() {
 			fmt.Println("定时任务触发，当前是工作日且非节假日，现在是21:00")
 			s.SendOrder(model.Title3, model.Url1)
