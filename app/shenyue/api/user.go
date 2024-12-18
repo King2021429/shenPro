@@ -8,6 +8,10 @@ import (
 	"shenyue-gin/app/shenyue/model"
 )
 
+// 注册 新增
+// 审批 更新
+// 注销 删除
+
 func Find(ctx *gin.Context) {
 	id := ctx.Query("id")
 	name := ctx.Query("name")
