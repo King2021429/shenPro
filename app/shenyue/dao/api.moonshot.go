@@ -9,9 +9,9 @@ import (
 	"shenyue-gin/app/shenyue/model"
 )
 
-func (d *Dao) AIChat(query string, history []model.Message) string {
+func (d *Dao) AIChat(query string, history *[]model.Message) string {
 	// 将新的用户消息添加到历史记录中
-	history = append(history, model.Message{
+	*history = append(*history, model.Message{
 		Role:    "user",
 		Content: query,
 	})
@@ -19,7 +19,7 @@ func (d *Dao) AIChat(query string, history []model.Message) string {
 	// 构造请求体
 	reqBody := model.ChatRequest{
 		Model:       "moonshot-v1-8k",
-		Messages:    history,
+		Messages:    *history,
 		Temperature: 0.3,
 	}
 	reqBodyBytes, err := json.Marshal(reqBody)
@@ -69,7 +69,7 @@ func (d *Dao) AIChat(query string, history []model.Message) string {
 
 	// 获取回复内容，并添加到历史记录中
 	result := respData.Choices[0].Message.Content
-	history = append(history, model.Message{
+	*history = append(*history, model.Message{
 		Role:    "assistant",
 		Content: result,
 	})

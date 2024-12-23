@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"shenyue-gin/app/shenyue/errorcode"
 	"shenyue-gin/app/shenyue/model"
 )
 
@@ -14,7 +13,7 @@ func (s *Service) WebHookSendMsg(ctx context.Context, req *model.SendMsg, webhoo
 	fmt.Println(webhook.Event)
 	fmt.Printf("成功转换为ContentType1结构体，%+v\n", req)
 	fmt.Println(webhook.Timestamp)
-	return resp, errorcode.ERROR_USERNAME_USED
+	return
 }
 
 // WebHookEnterDirectMsg ENTER_DIRECT_MSG
