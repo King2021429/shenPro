@@ -18,9 +18,15 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	e.POST("/webhook", Webhook)
 	ug := e.Group("/user")
 	{
-		ug.GET("find", Find)
-		ug.POST("register", Register)
+		ug.GET("/find", Find)
+		ug.POST("/register", Register)
 	}
+	ai := e.Group("/ai")
+	{
+		ai.POST("/start", AIConversationStart)
+		ai.POST("/send_msg", AIConversationSendMsg)
+	}
+
 	return e
 }
 

@@ -1,1 +1,33 @@
 package api
+
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"shenyue-gin/app/shenyue/model"
+)
+
+// AIConversationStart 开启会话
+func AIConversationStart(ctx *gin.Context) {
+	resp, _ := Svc.AIChatStart(ctx.Request.Context())
+	ctx.JSON(200, resp)
+}
+
+// AIConversationSendMsg 输入对话
+func AIConversationSendMsg(ctx *gin.Context) {
+	var conversationSendMsgReq model.ConversationSendMsgReq
+	err := ctx.ShouldBindJSON(&conversationSendMsgReq)
+	if err != nil {
+		fmt.Println(err)
+	}
+	resp, err := Svc.AIChatSendMsg(ctx.Request.Context(), &conversationSendMsgReq)
+	if err != nil {
+		fmt.Println(err)
+		ctx.JSON(200, err)
+	}
+	ctx.JSON(200, resp)
+}
+
+// AIConversationClose 结束对话
+func AIConversationClose(ctx *gin.Context) {
+
+}
