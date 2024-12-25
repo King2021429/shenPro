@@ -31,3 +31,5 @@ func AIConversationSendMsg(ctx *gin.Context) {
 func AIConversationClose(ctx *gin.Context) {
 
 }
+
+// 根据conversation_id获取历史记录
