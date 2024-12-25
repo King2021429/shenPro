@@ -9,7 +9,8 @@ import (
 	"time"
 )
 
-func (s *Service) AIChatStart(ctx context.Context) (resp int64, err error) {
+func (s *Service) AIChatStart(ctx context.Context) (resp *model.ConversationStartResp, err error) {
+	resp = &model.ConversationStartResp{}
 	// 使用时间戳作为随机数种子，确保每次运行生成的随机数不同
 	rand.Seed(time.Now().UnixNano())
 	// 生成0到10000之间的随机数
@@ -32,10 +33,12 @@ func (s *Service) AIChatStart(ctx context.Context) (resp int64, err error) {
 		return
 	}
 	fmt.Println(randomNumber)
-	return int64(randomNumber), nil
+	resp.ConversationId = int64(randomNumber)
+	return resp, nil
 }
 
-func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSendMsgReq) (resp string, err error) {
+func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSendMsgReq) (resp *model.ConversationSendMsgResp, err error) {
+	resp = &model.ConversationSendMsgResp{}
 	value, err := s.dao.RcGetConversation(ctx, req.ConversationId)
 	if err != nil {
 		return
@@ -59,23 +62,7 @@ func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSend
 		fmt.Println(err)
 		return
 	}
+	resp.Reply = res
 	fmt.Println(res)
-	return res, nil
-}
-
-func (s *Service) AIChat(chatReq string) (response string) {
-	history := []model.Message{
-		{
-			Role:    "system",
-			Content: "你是二次元妹子，活泼可爱好动，名字叫江户川神月",
-		},
-	}
-
-	firstResult := s.dao.AIChat(chatReq, &history)
-	fmt.Println(firstResult)
-	secondResult := s.dao.AIChat(chatReq, &history)
-	fmt.Println(secondResult)
-	thirdResult := s.dao.AIChat(chatReq, &history)
-	fmt.Println(thirdResult)
-	return thirdResult
+	return resp, nil
 }

@@ -11,4 +11,6 @@ type ConversationSendMsgReq struct {
 	ConversationId int64  `json:"conversation_id"`
 }
 
-type ConversationSendMsgResp struct{}
+type ConversationSendMsgResp struct {
+	Reply string `json:"reply"`
+}

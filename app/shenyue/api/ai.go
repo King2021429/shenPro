@@ -3,13 +3,14 @@ package api
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"shenyue-gin/app/shenyue/model"
 )
 
 // AIConversationStart 开启会话
 func AIConversationStart(ctx *gin.Context) {
 	resp, _ := Svc.AIChatStart(ctx.Request.Context())
-	ctx.JSON(200, resp)
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
 
 // AIConversationSendMsg 输入对话
@@ -22,9 +23,9 @@ func AIConversationSendMsg(ctx *gin.Context) {
 	resp, err := Svc.AIChatSendMsg(ctx.Request.Context(), &conversationSendMsgReq)
 	if err != nil {
 		fmt.Println(err)
-		ctx.JSON(200, err)
+		ctx.JSON(http.StatusOK, gin.H{"error": err})
 	}
-	ctx.JSON(200, resp)
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
 
 // AIConversationClose 结束对话
