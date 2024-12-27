@@ -6,6 +6,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"shenyue-gin/app/shenyue/model"
 )
 
 // Dao
@@ -44,6 +45,8 @@ func NewGorm() (newdb *gorm.DB) {
 	if err != nil {
 		panic("连接数据库失败, error=" + err.Error())
 	}
+	// 自动迁移表结构
+	newdb.AutoMigrate(&model.User{})
 	return newdb
 }
 

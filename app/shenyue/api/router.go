@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"shenyue-gin/app/shenyue/middleware"
 	"shenyue-gin/app/shenyue/service"
 )
 
@@ -13,18 +14,38 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	e = gin.Default()
 	// 允许所有来源的跨域请求
 	e.Use(CORS())
-	e.POST("/test/id/:id", TestId)
-	e.POST("/test/path/*path", TestPath)
-	e.POST("/webhook", Webhook)
-	ug := e.Group("/user")
-	{
-		ug.GET("/find", Find)
-		ug.POST("/register", Register)
-	}
+	
 	ai := e.Group("/ai")
 	{
 		ai.POST("/start", AIConversationStart)
 		ai.POST("/send_msg", AIConversationSendMsg)
+	}
+
+	// 公共路由
+	publicGroup := e.Group("/")
+	{
+		// 回掉 b站商业化客服回掉
+		publicGroup.POST("webhook", Webhook)
+
+		// 用户 注册 登陆
+		publicGroup.POST("register", registerUser)
+		publicGroup.POST("login", loginUser)
+
+		// 测试
+		publicGroup.GET("test/id/:id", TestId)
+		publicGroup.POST("test/path/*path", TestPath)
+	}
+
+	// 受保护路由
+	protectedGroup := e.Group("/protected", middleware.AuthMiddleware)
+	{
+		protectedGroup.GET("/id/:id", TestId)
+	}
+
+	// 管理员路由
+	adminGroup := e.Group("/admin", middleware.AdminAuthMiddleware)
+	{
+		adminGroup.GET("/id/:id", TestId)
 	}
 
 	return e

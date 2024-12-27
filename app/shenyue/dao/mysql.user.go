@@ -3,17 +3,19 @@ package dao
 import (
 	"context"
 	"fmt"
-	"log"
 	"shenyue-gin/app/shenyue/model"
 )
 
-// Save 测试
-func (d *Dao) Save(ctx context.Context, user *model.User) (err error) {
-	reply := d.db.Select("nick", "password", "email").Create(user)
-	if reply.Error != nil {
-		log.Println("insert fail : ", err)
-	}
-	return reply.Error
+// 创建用户
+func (d *Dao) CreateUser(user *model.User) error {
+	return d.db.Create(&user).Error
+}
+
+// 获取用户
+func (d *Dao) GetUser(id uint) (model.User, error) {
+	var user model.User
+	err := d.db.First(&user, id).Error
+	return user, err
 }
 
 func (d *Dao) SelectAllEmail(ctx context.Context) ([]string, error) {
@@ -36,21 +38,38 @@ func (d *Dao) SelectByUsername(ctx context.Context, username string) (user *mode
 	return user, nil
 }
 
-// Delete方法：适用于软删除，只会将DeletedAt字段设置为当前时间戳，不会从数据库中完全删除记录。
-//如果模型中定义了DeletedAt字段（通常是gorm.DeletedAt类型），GORM会认为该模型支持软删除。
-
-// Unscoped().Delete方法：适用于硬删除，会从数据库中完全删除记录，忽略软删除逻辑。
-func (d *Dao) DeleteUser(ctx context.Context, id uint) error {
-	var user *model.User
-	// 根据ID查找用户
-	if err := d.db.First(&user, id).Error; err != nil {
-		return err // 如果没有找到用户，返回错误
-	}
-
-	// 执行软删除
-	if err := d.db.Delete(&user, id).Error; err != nil {
-		return err // 如果删除失败，返回错误
-	}
-
-	return nil // 删除成功
+// 更新用户
+func (d *Dao) UpdateUser(user model.User) error {
+	return d.db.Save(&user).Error
 }
+
+// 删除用户
+func (d *Dao) DeleteUser(id uint) error {
+	return d.db.Delete(&model.User{}, id).Error
+}
+
+// 创建用户关注关系
+func (d *Dao) CreateUserFollow(userFollow model.UserFollow) error {
+	return d.db.Create(&userFollow).Error
+}
+
+// 获取用户关注关系
+func (d *Dao) GetUserFollow(id uint) (model.UserFollow, error) {
+	var userFollow model.UserFollow
+	err := d.db.First(&userFollow, id).Error
+	return userFollow, err
+}
+
+// 更新用户关注关系
+func (d *Dao) UpdateUserFollow(userFollow model.UserFollow) error {
+	return d.db.Save(&userFollow).Error
+}
+
+// 删除用户关注关系
+func (d *Dao) DeleteUserFollow(id uint) error {
+	return d.db.Delete(&model.UserFollow{}, id).Error
+}
+
+// Delete方法：适用于软删除，只会将DeletedAt字段设置为当前时间戳，不会从数据库中完全删除记录。
+// 如果模型中定义了DeletedAt字段（通常是gorm.DeletedAt类型），GORM会认为该模型支持软删除。
+// Unscoped().Delete方法：适用于硬删除，会从数据库中完全删除记录，忽略软删除逻辑。

@@ -9,21 +9,14 @@ import (
 
 func (s *Service) SaveUser(ctx context.Context, req *model.UserReq) (err error) {
 	user := &model.User{
+		Username: req.Username,
 		Password: req.Password,
 		Email:    req.Email,
 	}
-	err = s.dao.Save(ctx, user)
+	err = s.dao.CreateUser(user)
 	if err != nil {
 		return err
 	}
-	return
-}
-
-func (s *Service) GetUserById(ctx context.Context) (err error) {
-	return
-}
-
-func (s *Service) GetUserByMobile(ctx context.Context) (err error) {
 	return
 }
 

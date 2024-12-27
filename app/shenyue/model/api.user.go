@@ -1,10 +1,7 @@
 package model
 
 type UserReq struct {
-	Nick     string `json:"nick" binding:"required"`
+	Username string `json:"username" binding:"required"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
-	QQ       int64  `json:"qq"`
-	Wechat   string `json:"wechat"`
-	Phone    int64  `json:"phone"`
 }

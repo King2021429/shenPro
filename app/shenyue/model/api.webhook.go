@@ -2,22 +2,6 @@ package model
 
 import "encoding/json"
 
-// 定义一个通用的Content结构体，使用interface{}来处理不同格式的content内容
-type Content struct {
-	Data interface{} `json:"data,omitempty"`
-
-	Openid   string `json:"openid,omitempty"`
-	ClientID string `json:"client_id,omitempty"`
-
-	// 授权
-	Permits string `json:"permits,omitempty"`
-
-	// 稿件
-	ResourceID string `json:"resource_id,omitempty"`
-	State      int    `json:"state,omitempty"`
-	StateDesc  string `json:"state_desc,omitempty"`
-}
-
 //{
 //    "content": {
 //        "conversation_id": 115987617718784,

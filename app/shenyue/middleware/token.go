@@ -2,46 +2,79 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
+	"net/http"
+	"strconv"
+	"strings"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
-// 定义一个密钥，用于签名和验证Token，应该保存在安全的地方，这里只是示例
-var jwtSecret = []byte("your_secret_key")
+// JWT 密钥
+const jwtSecret = "your-secret-key"
 
-// 生成Token函数
-func GenerateToken(username, password string) (string, error) {
-	// 设置Token的过期时间，这里设置为1小时后过期
-	expirationTime := time.Now().Add(time.Hour)
-	// 创建一个新的Token对象，指定签名方法为HS256，并设置声明（Claims）
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username": username,
-		"password": password,
-		"exp":      expirationTime.Unix(),
-	})
-	// 使用密钥对Token进行签名，生成最终的Token字符串
-	tokenString, err := token.SignedString(jwtSecret)
-	if err != nil {
-		return "", err
+// GenerateToken 生成 JWT 令牌
+func GenerateToken(userID uint) (string, error) {
+	claims := &jwt.StandardClaims{
+		Issuer:    strconv.Itoa(int(userID)),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 	}
-	return tokenString, nil
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(jwtSecret))
 }
 
-// 解析Token函数
-func ParseToken(tokenString string) (*jwt.Token, error) {
-	return jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		// 验证签名方法是否为HS256
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Method)
-		}
-		return jwtSecret, nil
+// AuthMiddleware 用于验证 JWT
+func AuthMiddleware(c *gin.Context) {
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "未提供认证信息"})
+		c.Abort()
+		return
+	}
+
+	parts := strings.SplitN(authHeader, " ", 2)
+	if len(parts) != 2 || parts[0] != "Bearer" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "无效的认证格式"})
+		c.Abort()
+		return
+	}
+
+	tokenStr := parts[1]
+	claims := &jwt.StandardClaims{}
+	tkn, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(jwtSecret), nil
 	})
+	if err != nil || !tkn.Valid {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "无效的令牌"})
+		c.Abort()
+		return
+	}
+
+	// 将用户 ID 等信息存储到上下文，方便后续使用
+	c.Set("userID", claims.Issuer)
+	c.Next()
+
 }
 
-// 从解析后的Token中获取用户名和密码等信息
-func GetClaimsFromToken(token *jwt.Token) (map[string]interface{}, error) {
-	if claims, ok := token.Claims.(jwt.MapClaims); ok {
-		return claims, nil
+// AdminAuthMiddleware 用于验证管理员权限
+func AdminAuthMiddleware(c *gin.Context) {
+	// 先调用普通的身份验证中间件
+	AuthMiddleware(c)
+	if c.IsAborted() {
+		return
 	}
-	return nil, fmt.Errorf("invalid token claims")
+	// 从上下文中获取用户信息，假设用户信息存储在 claims 中
+	userID := c.GetString("userID")
+	// 这里可以根据 userID 从数据库中查询用户角色
+	fmt.Println(userID)
+	// 简单示例中直接从上下文中获取角色信息
+	role := c.GetString("role")
+	if role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "没有管理员权限"})
+		c.Abort()
+		return
+	}
+	c.Next()
+
 }

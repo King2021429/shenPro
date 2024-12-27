@@ -10,10 +10,9 @@ import (
 func TestService_SaveUser_(t *testing.T) {
 	convey.Convey("TestService_SaveUser_", t, func() {
 		err := TestSrv.SaveUser(TestCtx, &model.UserReq{
-			Nick:     "100",
-			Password: "TestService_SaveUser_",
+			Username: "江枫",
+			Password: "123456",
 			Email:    "test@gmail.com",
-			QQ:       1296436311,
 		})
 		if err != nil {
 			fmt.Println(err)
