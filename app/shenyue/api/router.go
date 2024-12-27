@@ -14,12 +14,6 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	e = gin.Default()
 	// 允许所有来源的跨域请求
 	e.Use(CORS())
-	
-	ai := e.Group("/ai")
-	{
-		ai.POST("/start", AIConversationStart)
-		ai.POST("/send_msg", AIConversationSendMsg)
-	}
 
 	// 公共路由
 	publicGroup := e.Group("/")
@@ -28,8 +22,8 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		publicGroup.POST("webhook", Webhook)
 
 		// 用户 注册 登陆
-		publicGroup.POST("register", registerUser)
-		publicGroup.POST("login", loginUser)
+		publicGroup.POST("user/register", registerUser)
+		publicGroup.POST("user/login", loginUser)
 
 		// 测试
 		publicGroup.GET("test/id/:id", TestId)
@@ -39,7 +33,7 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	// 受保护路由
 	protectedGroup := e.Group("/protected", middleware.AuthMiddleware)
 	{
-		protectedGroup.GET("/id/:id", TestId)
+		protectedGroup.GET("/user/getUserInfo", getUserInfo)
 	}
 
 	// 管理员路由

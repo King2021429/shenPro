@@ -2,7 +2,6 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"net/http"
 	"shenyue-gin/app/shenyue/middleware"
 	"shenyue-gin/app/shenyue/model"
@@ -54,23 +53,20 @@ func loginUser(c *gin.Context) {
 }
 
 // 获取用户信息
-func getUserInfo(db *gorm.DB) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		userID := c.GetString("userID")
-		id, err := strconv.Atoi(userID)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "无效的用户 ID"})
-			return
-		}
-
-		var user model.User
-		if err := db.First(&user, id).Error; err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": "用户未找到"})
-			return
-		}
-
-		c.JSON(http.StatusOK, user)
+func getUserInfo(c *gin.Context) {
+	userID := c.GetString("userID")
+	id, err := strconv.Atoi(userID)
+	if err != nil || id == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "无效的用户 ID"})
+		return
 	}
+	user, err := Svc.FindUserInfo(c.Request.Context(), uint(id))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "用户未找到"})
+		return
+	}
+	c.JSON(http.StatusOK, user)
+
 }
 
 // 获取管理员仪表盘信息

@@ -46,6 +46,7 @@ func NewGorm() (newdb *gorm.DB) {
 	if err != nil {
 		panic("连接数据库失败, error=" + err.Error())
 	}
+
 	// 自动迁移表结构
 	err = newdb.AutoMigrate(&model.User{})
 	if err != nil {
