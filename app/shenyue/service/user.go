@@ -9,10 +9,8 @@ import (
 
 func (s *Service) SaveUser(ctx context.Context, req *model.UserReq) (err error) {
 	user := &model.User{
-		Nick:     req.Nick,
 		Password: req.Password,
 		Email:    req.Email,
-		QQ:       req.QQ,
 	}
 	err = s.dao.Save(ctx, user)
 	if err != nil {

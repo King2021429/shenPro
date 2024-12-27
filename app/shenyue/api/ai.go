@@ -34,3 +34,5 @@ func AIConversationClose(ctx *gin.Context) {
 }
 
 // 根据conversation_id获取历史记录
+
+// 获取会话列表
