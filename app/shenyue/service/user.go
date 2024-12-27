@@ -7,15 +7,35 @@ import (
 	"sync"
 )
 
-func (s *Service) SaveUser(ctx context.Context, req *model.UserReq) (err error) {
+func (s *Service) SaveUser(ctx context.Context, req *model.User) (err error) {
+	if req.Username == "" || req.Password == "" {
+		return fmt.Errorf("param wrong")
+	}
 	user := &model.User{
 		Username: req.Username,
 		Password: req.Password,
 		Email:    req.Email,
 	}
-	err = s.dao.CreateUser(user)
+	err = s.dao.CreateUser(ctx, user)
 	if err != nil {
 		return err
+	}
+	return
+}
+
+func (s *Service) LoginUser(ctx context.Context, req *model.User) (err error) {
+	//var existingUser model.User
+	//if err := db.Where("username =? AND password =?", user.Username, user.Password).First(&existingUser).Error; err != nil {
+	//	c.JSON(http.StatusUnauthorized, gin.H{"error": "用户名或密码错误"})
+	//	return
+	//}
+	user, err := s.dao.SelectByUsername(ctx, req.Username)
+	if err != nil {
+		return fmt.Errorf("username not exist")
+
+	}
+	if user == nil || user.Password != req.Password {
+		return fmt.Errorf("password not exist")
 	}
 	return
 }

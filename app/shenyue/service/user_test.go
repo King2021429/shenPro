@@ -9,7 +9,7 @@ import (
 
 func TestService_SaveUser_(t *testing.T) {
 	convey.Convey("TestService_SaveUser_", t, func() {
-		err := TestSrv.SaveUser(TestCtx, &model.UserReq{
+		err := TestSrv.SaveUser(TestCtx, &model.User{
 			Username: "江枫",
 			Password: "123456",
 			Email:    "test@gmail.com",

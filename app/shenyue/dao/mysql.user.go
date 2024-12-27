@@ -7,12 +7,12 @@ import (
 )
 
 // 创建用户
-func (d *Dao) CreateUser(user *model.User) error {
+func (d *Dao) CreateUser(ctx context.Context, user *model.User) error {
 	return d.db.Create(&user).Error
 }
 
 // 获取用户
-func (d *Dao) GetUser(id uint) (model.User, error) {
+func (d *Dao) GetUser(ctx context.Context, id int64) (model.User, error) {
 	var user model.User
 	err := d.db.First(&user, id).Error
 	return user, err
@@ -39,34 +39,34 @@ func (d *Dao) SelectByUsername(ctx context.Context, username string) (user *mode
 }
 
 // 更新用户
-func (d *Dao) UpdateUser(user model.User) error {
+func (d *Dao) UpdateUser(ctx context.Context, user model.User) error {
 	return d.db.Save(&user).Error
 }
 
 // 删除用户
-func (d *Dao) DeleteUser(id uint) error {
+func (d *Dao) DeleteUser(ctx context.Context, id int64) error {
 	return d.db.Delete(&model.User{}, id).Error
 }
 
 // 创建用户关注关系
-func (d *Dao) CreateUserFollow(userFollow model.UserFollow) error {
+func (d *Dao) CreateUserFollow(ctx context.Context, userFollow model.UserFollow) error {
 	return d.db.Create(&userFollow).Error
 }
 
 // 获取用户关注关系
-func (d *Dao) GetUserFollow(id uint) (model.UserFollow, error) {
+func (d *Dao) GetUserFollow(ctx context.Context, id int64) (model.UserFollow, error) {
 	var userFollow model.UserFollow
 	err := d.db.First(&userFollow, id).Error
 	return userFollow, err
 }
 
 // 更新用户关注关系
-func (d *Dao) UpdateUserFollow(userFollow model.UserFollow) error {
+func (d *Dao) UpdateUserFollow(ctx context.Context, userFollow model.UserFollow) error {
 	return d.db.Save(&userFollow).Error
 }
 
 // 删除用户关注关系
-func (d *Dao) DeleteUserFollow(id uint) error {
+func (d *Dao) DeleteUserFollow(ctx context.Context, id int64) error {
 	return d.db.Delete(&model.UserFollow{}, id).Error
 }
 

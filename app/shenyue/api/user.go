@@ -21,19 +21,11 @@ func registerUser(c *gin.Context) {
 		return
 	}
 
-	// 检查用户名是否已存在
-	//var existingUser model.User
-	//if err := db.Where("username =?", user.Username).First(&existingUser).Error; err == nil {
-	//	c.JSON(http.StatusBadRequest, gin.H{"error": "用户名已存在"})
-	//	return
-	//}
-	//
-	//// 创建新用户
-	//if err := db.Create(&user).Error; err != nil {
-	//	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-	//	return
-	//}
-
+	err := Svc.SaveUser(c.Request.Context(), &user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusCreated, gin.H{"message": "注册成功"})
 
 }
@@ -45,12 +37,11 @@ func loginUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	//var existingUser model.User
-	//if err := db.Where("username =? AND password =?", user.Username, user.Password).First(&existingUser).Error; err != nil {
-	//	c.JSON(http.StatusUnauthorized, gin.H{"error": "用户名或密码错误"})
-	//	return
-	//}
+	err := Svc.LoginUser(c.Request.Context(), &user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
 
 	token, err := middleware.GenerateToken(user.ID)
 	if err != nil {

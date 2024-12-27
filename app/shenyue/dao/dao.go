@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-redis/redis"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -46,7 +47,31 @@ func NewGorm() (newdb *gorm.DB) {
 		panic("连接数据库失败, error=" + err.Error())
 	}
 	// 自动迁移表结构
-	newdb.AutoMigrate(&model.User{})
+	err = newdb.AutoMigrate(&model.User{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.Article{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.Comment{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.UserFollow{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.ArticleCollection{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.ArticleLike{})
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	return newdb
 }
 
@@ -61,10 +86,36 @@ func NewRedis() (rdb *redis.Client) {
 
 // Close close the resource.
 func (d *Dao) Close() {
+	// 关闭 Gorm 数据库连接
+	sqlDB, err := d.db.DB()
+	if err != nil {
+		fmt.Println("获取数据库连接对象失败:", err)
+		return
+	}
+	if err := sqlDB.Close(); err != nil {
+		fmt.Println("关闭数据库连接失败:", err)
+	}
+
+	// 关闭 Redis 连接
+	if err := d.rdb.Close(); err != nil {
+		fmt.Println("关闭 Redis 连接失败:", err)
+	}
 
 }
 
 // Ping ping the resource.
 func (d *Dao) Ping(ctx context.Context) (err error) {
-	return nil
+	// 检查数据库连接
+	sqlDB, err := d.db.DB()
+	if err != nil {
+		return err
+	}
+	err = sqlDB.Ping()
+	if err != nil {
+		return err
+	}
+
+	// 检查 Redis 连接
+	_, err = d.rdb.Ping().Result()
+	return err
 }
