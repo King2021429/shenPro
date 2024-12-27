@@ -1,9 +1,14 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+)
 
 func TestId(ctx *gin.Context) {
 	param := ctx.Param("id")
+	uid, _ := ctx.Get("userID")
+	fmt.Println(uid)
 	ctx.JSON(200, param)
 }
 

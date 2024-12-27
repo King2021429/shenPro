@@ -12,7 +12,7 @@ func (d *Dao) CreateUser(ctx context.Context, user *model.User) error {
 }
 
 // 获取用户
-func (d *Dao) GetUser(ctx context.Context, id int64) (model.User, error) {
+func (d *Dao) GetUser(ctx context.Context, id uint) (model.User, error) {
 	var user model.User
 	err := d.db.First(&user, id).Error
 	return user, err
@@ -44,7 +44,7 @@ func (d *Dao) UpdateUser(ctx context.Context, user model.User) error {
 }
 
 // 删除用户
-func (d *Dao) DeleteUser(ctx context.Context, id int64) error {
+func (d *Dao) DeleteUser(ctx context.Context, id uint) error {
 	return d.db.Delete(&model.User{}, id).Error
 }
 
@@ -54,7 +54,7 @@ func (d *Dao) CreateUserFollow(ctx context.Context, userFollow model.UserFollow)
 }
 
 // 获取用户关注关系
-func (d *Dao) GetUserFollow(ctx context.Context, id int64) (model.UserFollow, error) {
+func (d *Dao) GetUserFollow(ctx context.Context, id uint) (model.UserFollow, error) {
 	var userFollow model.UserFollow
 	err := d.db.First(&userFollow, id).Error
 	return userFollow, err
@@ -66,7 +66,7 @@ func (d *Dao) UpdateUserFollow(ctx context.Context, userFollow model.UserFollow)
 }
 
 // 删除用户关注关系
-func (d *Dao) DeleteUserFollow(ctx context.Context, id int64) error {
+func (d *Dao) DeleteUserFollow(ctx context.Context, id uint) error {
 	return d.db.Delete(&model.UserFollow{}, id).Error
 }
 

@@ -11,7 +11,7 @@ func (d *Dao) CreateArticle(ctx context.Context, article model.Article) error {
 }
 
 // GetArticle 获取文章
-func (d *Dao) GetArticle(ctx context.Context, id int64) (model.Article, error) {
+func (d *Dao) GetArticle(ctx context.Context, id uint) (model.Article, error) {
 	var article model.Article
 	err := d.db.First(&article, id).Error
 	return article, err
@@ -23,7 +23,7 @@ func (d *Dao) UpdateArticle(ctx context.Context, article model.Article) error {
 }
 
 // DeleteArticle 删除文章
-func (d *Dao) DeleteArticle(ctx context.Context, id int64) error {
+func (d *Dao) DeleteArticle(ctx context.Context, id uint) error {
 	return d.db.Delete(&model.Article{}, id).Error
 }
 
@@ -33,7 +33,7 @@ func (d *Dao) CreateArticleCollection(ctx context.Context, collection model.Arti
 }
 
 // GetArticleCollection 获取文章收藏
-func (d *Dao) GetArticleCollection(ctx context.Context, id int64) (model.ArticleCollection, error) {
+func (d *Dao) GetArticleCollection(ctx context.Context, id uint) (model.ArticleCollection, error) {
 	var collection model.ArticleCollection
 	err := d.db.First(&collection, id).Error
 	return collection, err
@@ -45,7 +45,7 @@ func (d *Dao) UpdateArticleCollection(ctx context.Context, collection model.Arti
 }
 
 // DeleteArticleCollection 删除文章收藏
-func (d *Dao) DeleteArticleCollection(ctx context.Context, id int64) error {
+func (d *Dao) DeleteArticleCollection(ctx context.Context, id uint) error {
 	return d.db.Delete(&model.ArticleCollection{}, id).Error
 }
 
@@ -55,7 +55,7 @@ func (d *Dao) CreateArticleLike(ctx context.Context, like model.ArticleLike) err
 }
 
 // GetArticleLike 获取文章点赞
-func (d *Dao) GetArticleLike(ctx context.Context, id int64) (model.ArticleLike, error) {
+func (d *Dao) GetArticleLike(ctx context.Context, id uint) (model.ArticleLike, error) {
 	var like model.ArticleLike
 	err := d.db.First(&like, id).Error
 	return like, err
@@ -67,6 +67,6 @@ func (d *Dao) UpdateArticleLike(ctx context.Context, like model.ArticleLike) err
 }
 
 // DeleteArticleLike 删除文章点赞
-func (d *Dao) DeleteArticleLike(ctx context.Context, id int64) error {
+func (d *Dao) DeleteArticleLike(ctx context.Context, id uint) error {
 	return d.db.Delete(&model.ArticleLike{}, id).Error
 }

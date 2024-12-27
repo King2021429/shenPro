@@ -23,7 +23,7 @@ func (s *Service) SaveUser(ctx context.Context, req *model.User) (err error) {
 	return
 }
 
-func (s *Service) LoginUser(ctx context.Context, req *model.User) (err error) {
+func (s *Service) LoginUser(ctx context.Context, req *model.User) (uid uint, err error) {
 	//var existingUser model.User
 	//if err := db.Where("username =? AND password =?", user.Username, user.Password).First(&existingUser).Error; err != nil {
 	//	c.JSON(http.StatusUnauthorized, gin.H{"error": "用户名或密码错误"})
@@ -31,13 +31,13 @@ func (s *Service) LoginUser(ctx context.Context, req *model.User) (err error) {
 	//}
 	user, err := s.dao.SelectByUsername(ctx, req.Username)
 	if err != nil {
-		return fmt.Errorf("username not exist")
+		return 0, fmt.Errorf("username not exist")
 
 	}
 	if user == nil || user.Password != req.Password {
-		return fmt.Errorf("password not exist")
+		return 0, fmt.Errorf("password not exist")
 	}
-	return
+	return user.ID, nil
 }
 
 func (s *Service) SendUserEmail(ctx context.Context) (err error) {

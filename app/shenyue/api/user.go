@@ -37,13 +37,13 @@ func loginUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	err := Svc.LoginUser(c.Request.Context(), &user)
+	uid, err := Svc.LoginUser(c.Request.Context(), &user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
 
-	token, err := middleware.GenerateToken(user.ID)
+	token, err := middleware.GenerateToken(uid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "生成令牌失败"})
 		return

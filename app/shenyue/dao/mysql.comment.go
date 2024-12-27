@@ -11,7 +11,7 @@ func (d *Dao) CreateComment(ctx context.Context, comment model.Comment) error {
 }
 
 // 获取评论
-func (d *Dao) GetComment(ctx context.Context, id int64) (model.Comment, error) {
+func (d *Dao) GetComment(ctx context.Context, id uint) (model.Comment, error) {
 	var comment model.Comment
 	err := d.db.First(&comment, id).Error
 	return comment, err
@@ -23,6 +23,6 @@ func (d *Dao) UpdateComment(ctx context.Context, comment model.Comment) error {
 }
 
 // 删除评论
-func (d *Dao) DeleteComment(ctx context.Context, id int64) error {
+func (d *Dao) DeleteComment(ctx context.Context, id uint) error {
 	return d.db.Delete(&model.Comment{}, id).Error
 }

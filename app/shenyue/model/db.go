@@ -4,13 +4,15 @@ import (
 	"gorm.io/gorm"
 )
 
-// 用户表结构体
+// User 用户表结构体
+// Status 0 用户 1 admin
 type User struct {
 	gorm.Model
 	Username string `gorm:"unique;not null"`
 	Password string `gorm:"not null"`
 	Email    string
 	Avatar   string
+	Status   int64 `gorm:"default:0"`
 }
 
 // 文章表结构体

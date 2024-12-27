@@ -12,7 +12,7 @@ import (
 )
 
 // JWT 密钥
-const jwtSecret = "your-secret-key"
+const jwtSecret = "ced2850a8efb4b52aa5db779152fca5d"
 
 // GenerateToken 生成 JWT 令牌
 func GenerateToken(userID uint) (string, error) {
@@ -55,7 +55,6 @@ func AuthMiddleware(c *gin.Context) {
 	// 将用户 ID 等信息存储到上下文，方便后续使用
 	c.Set("userID", claims.Issuer)
 	c.Next()
-
 }
 
 // AdminAuthMiddleware 用于验证管理员权限
