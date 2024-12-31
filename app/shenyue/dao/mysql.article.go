@@ -6,7 +6,7 @@ import (
 )
 
 // CreateArticle 创建文章
-func (d *Dao) CreateArticle(ctx context.Context, article model.Article) error {
+func (d *Dao) CreateArticle(ctx context.Context, article *model.Article) error {
 	return d.db.Create(&article).Error
 }
 
