@@ -23,3 +23,13 @@ func (s *Service) CreateArticle(ctx context.Context, req *model.CreateArticleReq
 	}
 	return resp, nil
 }
+
+func (s *Service) GetArticleList(ctx context.Context, req *model.GetArticleListReq, uid int64) (resp *model.GetArticleListResp, err error) {
+	resp = &model.GetArticleListResp{}
+	_, err = s.dao.GetArticleList(ctx, 1, 1)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	return resp, nil
+}

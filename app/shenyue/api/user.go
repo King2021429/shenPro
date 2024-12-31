@@ -70,8 +70,6 @@ func getUserInfo(c *gin.Context) {
 }
 
 // 获取管理员仪表盘信息
-func getAdminDashboard() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "这是管理员仪表盘"})
-	}
+func getAdminDashboard(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"message": "这是管理员仪表盘"})
 }

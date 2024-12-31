@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"fmt"
 	"shenyue-gin/app/shenyue/model"
 )
 
@@ -20,6 +21,20 @@ func (d *Dao) GetArticle(ctx context.Context, id uint) (model.Article, error) {
 // UpdateArticle 更新文章
 func (d *Dao) UpdateArticle(ctx context.Context, article model.Article) error {
 	return d.db.Save(&article).Error
+}
+
+func (d *Dao) GetArticleList(ctx context.Context, pageSize int, pageNumber int) ([]model.Article, error) {
+	// 计算偏移量
+	offset := (pageNumber - 1) * pageSize
+	// 分页获取文章列表
+	var articles []model.Article
+	err := d.db.Limit(pageSize).Offset(offset).Find(&articles).Error
+	if err != nil {
+		fmt.Println("获取文章列表失败: ", err)
+		return nil, err
+	}
+	return articles, nil
+
 }
 
 // DeleteArticle 删除文章

@@ -7,3 +7,9 @@ type CreateArticleReq struct {
 
 type CreateArticleResp struct {
 }
+
+type GetArticleListReq struct {
+}
+
+type GetArticleListResp struct {
+}
