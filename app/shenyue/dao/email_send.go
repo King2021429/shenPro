@@ -7,10 +7,6 @@ import (
 )
 
 const (
-	//_emailUser = "openhome-noreply@bilibili.com"
-	//_emailPwd  = "J?!v0l$%1rE+dTzO5y"
-	//_emailHost = "smtp.partner.outlook.cn"
-	//_emailPort = 587
 	// 要去邮箱打开设置 并获取授权码
 	_emailUser = "18683565829@163.com"
 	_emailPwd  = "HDfw5LRPKFKevU6E"
@@ -20,7 +16,7 @@ const (
 
 // GetDialer 获取邮箱连接
 func (d *Dao) GetDialer() *gomail.Dialer {
-	dialer := gomail.NewDialer(_emailHost, _emailPort, _emailUser, _emailPwd)
+	dialer := gomail.NewDialer(d.c.Email.EmailHost, d.c.Email.EmailPort, d.c.Email.EmailUser, d.c.Email.EmailPwd)
 	return dialer
 }
 
