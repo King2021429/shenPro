@@ -7,6 +7,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	cfg "shenyue-gin/app/shenyue/configs"
 	"shenyue-gin/app/shenyue/model"
 )
 
@@ -14,33 +15,21 @@ import (
 type Dao struct {
 	db  *gorm.DB
 	rdb *redis.Client
+	c   *cfg.Config
 }
 
-func NewDao() (dao *Dao) {
+func NewDao(cfg *cfg.Config) (dao *Dao) {
 	dao = &Dao{
-		db:  NewGorm(),
-		rdb: NewRedis(),
+		db:  NewGorm(cfg),
+		rdb: NewRedis(cfg),
+		c:   cfg,
 	}
 	return dao
 }
 
-func NewGorm() (newdb *gorm.DB) {
+func NewGorm(cfg *cfg.Config) (newdb *gorm.DB) {
 	//配置MySQL连接参数
-	//username := "jiang"            //账号
-	//password := "D77jB5bTNSyKF7jb" //密码
-	//host := "106.15.138.33"        //数据库地址，可以是Ip或者域名
-	//port := 3306                   //数据库端口
-	//Dbname := "jiang"              //数据库名
-	//username := "root"   //账号
-	//password := "123456" //密码
-	//host := "127.0.0.1"  //数据库地址，可以是Ip或者域名
-	//port := 3306         //数据库端口
-	//Dbname := "blog"     //数据库名
-	//dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", username, password, host, port, Dbname)
-
-	dsn := "root:123456@tcp(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local"
-	//dsn := "jiang:D77jB5bTNSyKF7jb@tcp(106.15.138.33:3306)/jiang?charset=utf8&parseTime=True&loc=Local"
-	newdb, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	newdb, err := gorm.Open(mysql.Open(cfg.DbLocal.Dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
@@ -76,7 +65,7 @@ func NewGorm() (newdb *gorm.DB) {
 	return newdb
 }
 
-func NewRedis() (rdb *redis.Client) {
+func NewRedis(cfg *cfg.Config) (rdb *redis.Client) {
 	rdb = redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "", // no password set

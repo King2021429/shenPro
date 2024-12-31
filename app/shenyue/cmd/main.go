@@ -5,13 +5,17 @@ import (
 	"os"
 	"os/signal"
 	"shenyue-gin/app/shenyue/api"
+	"shenyue-gin/app/shenyue/configs"
 	"shenyue-gin/app/shenyue/service"
 	"syscall"
 )
 
 func main() {
+	// 初始化配置文件
+	configs.InitConfig()
+	config := configs.GetConfig()
 	// 初始化service service里面会初始化dao
-	newService := service.NewService()
+	newService := service.NewService(config)
 	// 初始化http路由
 	e := api.InitHttpRouter(newService)
 	// 监听并在 0.0.0.0:8001 上启动服务

@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	cfg "shenyue-gin/app/shenyue/configs"
 	"shenyue-gin/app/shenyue/dao"
 )
 
@@ -9,9 +10,9 @@ type Service struct {
 	dao *dao.Dao
 }
 
-func NewService() (s *Service) {
+func NewService(c *cfg.Config) (s *Service) {
 	s = &Service{
-		dao: dao.NewDao(),
+		dao: dao.NewDao(c),
 	}
 	s.NewCorn()
 	return s
