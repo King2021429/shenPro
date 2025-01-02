@@ -34,7 +34,6 @@ func (d *Dao) GetArticleList(ctx context.Context, pageSize int, pageNumber int) 
 		return nil, err
 	}
 	return articles, nil
-
 }
 
 // DeleteArticle 删除文章

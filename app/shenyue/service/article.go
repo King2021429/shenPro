@@ -34,3 +34,20 @@ func (s *Service) GetArticleList(ctx context.Context, req *model.GetArticleListR
 	}
 	return resp, nil
 }
+
+func (s *Service) DeleteArticle(ctx context.Context, req *model.DeleteArticleReq, uid int64) (resp *model.GetArticleListResp, err error) {
+	resp = &model.GetArticleListResp{}
+	article, err := s.dao.GetArticle(ctx, uint(req.ArticleId))
+	if err != nil {
+		return nil, err
+	}
+	if article.UID != uid {
+		return nil, err
+	}
+	err = s.dao.DeleteArticle(ctx, uint(req.ArticleId))
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	return resp, nil
+}

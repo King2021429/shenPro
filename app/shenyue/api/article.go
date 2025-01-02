@@ -26,3 +26,20 @@ func CreateArticle(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
+
+// DeleteArticle 删除文章
+func DeleteArticle(ctx *gin.Context) {
+	var deleteArticleReq model.DeleteArticleReq
+	err := ctx.ShouldBindJSON(&deleteArticleReq)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	uidStr := ctx.GetString("userID")
+	uid, _ := strconv.ParseInt(uidStr, 10, 64)
+	resp, err := Svc.DeleteArticle(ctx.Request.Context(), &deleteArticleReq, uid)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+}

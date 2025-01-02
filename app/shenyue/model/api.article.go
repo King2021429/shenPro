@@ -13,3 +13,10 @@ type GetArticleListReq struct {
 
 type GetArticleListResp struct {
 }
+
+type DeleteArticleReq struct {
+	ArticleId int64 `json:"article_id"`
+}
+
+type DeleteArticleResp struct {
+}
