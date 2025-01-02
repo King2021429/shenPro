@@ -1,6 +1,6 @@
 package errorcode
 
-func GetErrMsg(code int) string {
+func GetErrMsg(code int64) string {
 	return codeMsg[code]
 }
 
@@ -13,7 +13,7 @@ const (
 	ERROR_PASSWORD_WRONG = 1002
 )
 
-var codeMsg = map[int]string{
+var codeMsg = map[int64]string{
 	SUCCSE:               "OK",
 	ERROR:                "FAIL",
 	ERROR_USERNAME_USED:  "用户名已存在！",

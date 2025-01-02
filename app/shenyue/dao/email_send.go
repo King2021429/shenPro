@@ -23,7 +23,7 @@ func (d *Dao) GetDialer() *gomail.Dialer {
 // GenEmailHeaderMessage 设置邮件头部信息 邮件一件一件发，防止用户隐私暴露
 func (d *Dao) GenEmailHeaderMessage(addr string, htmlText string, title string) (m *gomail.Message) {
 	m = gomail.NewMessage()
-	m.SetHeader("From", _emailUser)
+	m.SetHeader("From", d.c.Email.EmailUser)
 	m.SetHeader("To", addr)
 	m.SetHeader("Subject", title)
 	m.SetBody("text/html", htmlText)

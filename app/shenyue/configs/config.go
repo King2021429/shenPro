@@ -7,20 +7,19 @@ import (
 
 // DbConfig 结构体用于存储 Db 部分的配置
 type DbConfig struct {
-	Addr         string
-	Dsn          string
-	Active       int
-	Idle         int
-	IdleTimeout  string
-	QueryTimeout string
-	ExecTimeout  string
-	TranTimeout  string
+	//Addr         string
+	Dsn string
+	//Active       int
+	//Idle         int
+	//IdleTimeout  string
+	//QueryTimeout string
+	//ExecTimeout  string
+	//TranTimeout  string
 }
 
 // DbLocalConfig 结构体用于存储 DbLocal 部分的配置
 type DbLocalConfig struct {
-	Addr string
-	Dsn  string
+	Dsn string
 }
 
 // EmailConfig 结构体用于email部分的配置
@@ -49,5 +48,7 @@ func InitConfig() {
 		fmt.Println("读取TOML文件出错:", err)
 		return
 	}
-	fmt.Println(conf)
+	fmt.Println(conf.Db)
+	fmt.Println(conf.DbLocal)
+	fmt.Println(conf.Email)
 }

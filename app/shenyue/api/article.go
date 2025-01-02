@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"shenyue-gin/app/shenyue/errorcode"
 	"shenyue-gin/app/shenyue/model"
 	"strconv"
 )
@@ -18,9 +19,9 @@ func CreateArticle(ctx *gin.Context) {
 
 	uidStr := ctx.GetString("userID")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	resp, err := Svc.CreateArticle(ctx.Request.Context(), &article, uid)
-	if err != nil {
-		fmt.Println(err)
+	resp, errCode := Svc.CreateArticle(ctx.Request.Context(), &article, uid)
+	if errCode != 0 {
+		fmt.Println(errorcode.GetErrMsg(errCode))
 		ctx.JSON(http.StatusOK, gin.H{"error": err})
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})

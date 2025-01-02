@@ -8,11 +8,13 @@ import (
 
 type Service struct {
 	dao *dao.Dao
+	cfg *cfg.Config
 }
 
 func NewService(c *cfg.Config) (s *Service) {
 	s = &Service{
 		dao: dao.NewDao(c),
+		cfg: c,
 	}
 	s.NewCorn()
 	return s

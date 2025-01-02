@@ -23,7 +23,7 @@ func (s *Service) NewCorn() {
 	})
 	err = c.AddFunc("0 30 20 * * *", func() {
 		if utils.IsWorkingDay() {
-			fmt.Println("定时任务触发，当前是工作日且非节假日，现在是21:00")
+			fmt.Println("定时任务触发，当前是工作日且非节假日，现在是20:30")
 			s.SendOrder(model.Title3, model.Url1)
 		}
 	})

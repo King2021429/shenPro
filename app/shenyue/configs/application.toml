@@ -1,12 +1,5 @@
 [Db]
-	addr = "127.0.0.1:5232"
-	dsn = "jiang:D77jB5bTNSyKF7jb@tcp(106.15.138.33:3306)/jiang?charset=utf8&parseTime=True&loc=Local"
-	active = 20
-	idle = 10
-	idleTimeout ="4h"
-	queryTimeout = "50s"
-	execTimeout = "50s"
-	tranTimeout = "50s"
+	dsn = "jiang:D77jB5bTNSyKF7jb@tcp(127.0.0.1:3306)/jiang?charset=utf8&parseTime=True&loc=Local"
 
 [DbLocal]
     dsn = "root:123456@tcp(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local"
