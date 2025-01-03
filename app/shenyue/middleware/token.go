@@ -18,7 +18,7 @@ const jwtSecret = "ced2850a8efb4b52aa5db779152fca5d"
 func GenerateToken(userID uint) (string, error) {
 	claims := &jwt.StandardClaims{
 		Issuer:    strconv.Itoa(int(userID)),
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+		ExpiresAt: time.Now().Add(time.Hour * 12).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(jwtSecret))

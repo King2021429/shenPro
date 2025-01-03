@@ -32,14 +32,19 @@ const (
 	SUCCSE = 200
 	ERROR  = 500
 
-	// ERROR_USERNAME_USED code= 1000... 用户模块的错误
-	ERROR_USERNAME_USED  = 1001
-	ERROR_PASSWORD_WRONG = 1002
+	// ERROR_USERNAME_USED code= 1000... 1000 - 1999 用户模块的错误
+	ErrUsernameUsed  = 1001
+	ErrPasswordWrong = 1002
+	ErrUserNameWrong = 1003
+
+	// Article 2000 - 2999
+
 )
 
 var codeMsg = map[int64]string{
-	SUCCSE:               "OK",
-	ERROR:                "FAIL",
-	ERROR_USERNAME_USED:  "用户名已存在！",
-	ERROR_PASSWORD_WRONG: "密码错误",
+	SUCCSE:           "OK",
+	ERROR:            "FAIL",
+	ErrUsernameUsed:  "用户名已存在！",
+	ErrPasswordWrong: "密码错误",
+	ErrUserNameWrong: "用户名错误",
 }

@@ -29,7 +29,9 @@ func AIConversationSendMsg(ctx *gin.Context) {
 }
 
 // AIConversationDelete 删除对话
-func AIConversationDelete(ctx *gin.Context) {}
+func AIConversationDelete(ctx *gin.Context) {
+
+}
 
 // 根据conversation_id获取历史记录
 

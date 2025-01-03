@@ -13,8 +13,8 @@ func (s *Service) AIChatStart(ctx context.Context) (resp *model.ConversationStar
 	resp = &model.ConversationStartResp{}
 	// 使用时间戳作为随机数种子，确保每次运行生成的随机数不同
 	rand.Seed(time.Now().UnixNano())
-	// 生成0到10000之间的随机数
-	randomNumber := rand.Intn(10001)
+	// 生成0到100000之间的随机数
+	randomNumber := rand.Intn(100001)
 	history := []model.Message{
 		{
 			Role:    "system",

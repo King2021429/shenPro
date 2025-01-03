@@ -44,7 +44,7 @@ func GetConfig() *Config {
 }
 
 func InitConfig() {
-	if _, err := toml.DecodeFile("/Users/shenyue/go/src/shenyue-gin/app/shenyue/configs/application.toml", &conf); err != nil {
+	if _, err := toml.DecodeFile("app/shenyue/configs/application.toml", &conf); err != nil {
 		fmt.Println("读取TOML文件出错:", err)
 		return
 	}
