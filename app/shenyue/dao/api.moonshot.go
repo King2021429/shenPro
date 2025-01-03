@@ -30,14 +30,15 @@ func (d *Dao) AIChat(query string, history *[]model.Message) string {
 
 	// 创建POST请求
 	client := &http.Client{}
-	url := "https://api.moonshot.cn/v1/chat/completions" // 根据实际情况调整完整路径等
+	url := d.c.Moonshot.Url
+	//url := "https://api.moonshot.cn/v1/chat/completions" // 根据实际情况调整完整路径等
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
 		fmt.Println("创建请求失败:", err)
 		return ""
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer sk-D3lXzQcv8Uflx0AjdyolQdjGlO7yPa7be0oligkSt2dfX7Ab")
+	req.Header.Set("Authorization", d.c.Moonshot.Authorization)
 
 	// 发送请求
 	resp, err := client.Do(req)

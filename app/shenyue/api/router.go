@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"shenyue-gin/app/shenyue/middleware"
 	"shenyue-gin/app/shenyue/service"
 )
@@ -62,11 +63,12 @@ func CORS() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content - Type, Content - Length, Accept - Encoding, X - CSRF - Token, Authorization, accept, origin, Cache - Control, X - Requested - With")
 		// 只允许"POST, GET"请求
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET")
-		//if c.Request.Method == "OPTIONS" {
-		//	c.JSON(http.StatusOK, gin.H{"message": "Options请求成功"})
-		//	return
-		//}
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+		if c.Request.Method == "OPTIONS" {
+			c.JSON(http.StatusOK, gin.H{"message": "Options请求成功"})
+			return
+		}
+
 		c.Next()
 	}
 }

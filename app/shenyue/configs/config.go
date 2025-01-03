@@ -8,8 +8,8 @@ import (
 
 // DbConfig 结构体用于存储 Db 部分的配置
 type DbConfig struct {
-	//Addr         string
 	Dsn string
+	//Addr         string
 	//Active       int
 	//Idle         int
 	//IdleTimeout  string
@@ -26,10 +26,16 @@ type EmailConfig struct {
 	EmailPort int
 }
 
+type MoonshotConfig struct {
+	Url           string
+	Authorization string
+}
+
 // Config 结构体用于存储整个 TOML 文件的配置
 type Config struct {
-	Db    DbConfig
-	Email EmailConfig
+	Db       DbConfig
+	Email    EmailConfig
+	Moonshot MoonshotConfig
 }
 
 var conf *Config
@@ -51,6 +57,7 @@ func InitConfig() {
 		fmt.Println("读取TOML文件出错:", err)
 		return
 	}
+	fmt.Println(conf)
 	fmt.Println(conf.Db)
 	fmt.Println(conf.Email)
 }

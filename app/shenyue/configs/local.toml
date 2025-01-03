@@ -6,3 +6,8 @@
     emailPwd  = "HDfw5LRPKFKevU6E"
     emailHost = "smtp.163.com"
     emailPort = 25
+
+
+[Moonshot]
+	url = "https://api.moonshot.cn/v1/chat/completions"
+    authorization  = "Bearer sk-D3lXzQcv8Uflx0AjdyolQdjGlO7yPa7be0oligkSt2dfX7Ab"
