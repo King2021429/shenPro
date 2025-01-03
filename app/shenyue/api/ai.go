@@ -28,10 +28,8 @@ func AIConversationSendMsg(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
 
-// AIConversationClose 结束对话
-func AIConversationClose(ctx *gin.Context) {
-
-}
+// AIConversationDelete 删除对话
+func AIConversationDelete(ctx *gin.Context) {}
 
 // 根据conversation_id获取历史记录
 

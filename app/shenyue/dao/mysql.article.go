@@ -11,15 +11,15 @@ func (d *Dao) CreateArticle(ctx context.Context, article *model.Article) error {
 	return d.db.Create(&article).Error
 }
 
-// GetArticle 获取文章
-func (d *Dao) GetArticle(ctx context.Context, id uint) (model.Article, error) {
+// GetArticleById 获取文章
+func (d *Dao) GetArticleById(ctx context.Context, id uint) (model.Article, error) {
 	var article model.Article
 	err := d.db.First(&article, id).Error
 	return article, err
 }
 
 // UpdateArticle 更新文章
-func (d *Dao) UpdateArticle(ctx context.Context, article model.Article) error {
+func (d *Dao) UpdateArticle(ctx context.Context, article *model.Article) error {
 	return d.db.Save(&article).Error
 }
 

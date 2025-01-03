@@ -6,14 +6,6 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-const (
-	// 要去邮箱打开设置 并获取授权码
-	_emailUser = "18683565829@163.com"
-	_emailPwd  = "HDfw5LRPKFKevU6E"
-	_emailHost = "smtp.163.com"
-	_emailPort = 25
-)
-
 // GetDialer 获取邮箱连接
 func (d *Dao) GetDialer() *gomail.Dialer {
 	dialer := gomail.NewDialer(d.c.Email.EmailHost, d.c.Email.EmailPort, d.c.Email.EmailUser, d.c.Email.EmailPwd)

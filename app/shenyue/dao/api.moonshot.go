@@ -37,7 +37,6 @@ func (d *Dao) AIChat(query string, history *[]model.Message) string {
 		return ""
 	}
 	req.Header.Set("Content-Type", "application/json")
-	// 这里假设需要类似的认证头，实际按照其API要求来准确设置
 	req.Header.Set("Authorization", "Bearer sk-D3lXzQcv8Uflx0AjdyolQdjGlO7yPa7be0oligkSt2dfX7Ab")
 
 	// 发送请求

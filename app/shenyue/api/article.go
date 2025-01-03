@@ -27,6 +27,25 @@ func CreateArticle(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
 
+// EditArticle
+
+// EditArticle 编辑文章
+func EditArticle(ctx *gin.Context) {
+	var article model.EditArticleReq
+	err := ctx.ShouldBindJSON(&article)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	uidStr := ctx.GetString("userID")
+	uid, _ := strconv.ParseInt(uidStr, 10, 64)
+	resp, err := Svc.EditArticle(ctx.Request.Context(), &article, uid)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+}
+
 // DeleteArticle 删除文章
 func DeleteArticle(ctx *gin.Context) {
 	var deleteArticleReq model.DeleteArticleReq
@@ -43,3 +62,5 @@ func DeleteArticle(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
+
+// GetArticleList
