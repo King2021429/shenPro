@@ -32,18 +32,22 @@ const (
 	SUCCSE = 200
 	ERROR  = 500
 
-	// ERROR_USERNAME_USED code= 1000... 1000 - 1999 用户模块的错误
-	ErrUsernameUsed  = 1001
-	ErrPasswordWrong = 1002
-	ErrUserNameWrong = 1003
+	// common code= 1000... 1000 - 1999 通用模块的错误
+	ErrParam = 1000
 
-	// Article 2000 - 2999
+	// ERROR_USERNAME_USED code= 2000... 2000 - 2999 用户模块的错误
+	ErrUsernameUsed  = 2001
+	ErrPasswordWrong = 2002
+	ErrUserNameWrong = 2003
+
+	// Article
 
 )
 
 var codeMsg = map[int64]string{
 	SUCCSE:           "OK",
 	ERROR:            "FAIL",
+	ErrParam:         "参数错误",
 	ErrUsernameUsed:  "用户名已存在！",
 	ErrPasswordWrong: "密码错误",
 	ErrUserNameWrong: "用户名错误",

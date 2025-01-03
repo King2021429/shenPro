@@ -10,7 +10,7 @@ import (
 func (s *Service) CreateArticle(ctx context.Context, req *model.CreateArticleReq, uid int64) (resp *model.CreateArticleResp, err int64) {
 	resp = &model.CreateArticleResp{}
 	if req.Title == "" || req.Content == "" || uid == 0 {
-		return nil, errorcode.ERROR
+		return nil, errorcode.ErrParam
 
 	}
 	newArticle := &model.Article{

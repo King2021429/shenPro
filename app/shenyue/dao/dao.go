@@ -28,7 +28,7 @@ func NewDao(cfg *cfg.Config) (dao *Dao) {
 
 func NewGorm(cfg *cfg.Config) (newdb *gorm.DB) {
 	//配置MySQL连接参数
-	newdb, err := gorm.Open(mysql.Open(cfg.DbLocal.Dsn), &gorm.Config{
+	newdb, err := gorm.Open(mysql.Open(cfg.Db.Dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
