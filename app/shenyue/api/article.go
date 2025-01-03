@@ -21,13 +21,11 @@ func CreateArticle(ctx *gin.Context) {
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, errCode := Svc.CreateArticle(ctx.Request.Context(), &article, uid)
 	if errCode != 0 {
-		fmt.Println(errorcode.GetErrMsg(errCode))
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
+		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
-
-// EditArticle
 
 // EditArticle 编辑文章
 func EditArticle(ctx *gin.Context) {
@@ -42,6 +40,7 @@ func EditArticle(ctx *gin.Context) {
 	resp, err := Svc.EditArticle(ctx.Request.Context(), &article, uid)
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{"error": err})
+		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
@@ -59,8 +58,48 @@ func DeleteArticle(ctx *gin.Context) {
 	resp, err := Svc.DeleteArticle(ctx.Request.Context(), &deleteArticleReq, uid)
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{"error": err})
+		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
 
-// GetArticleList
+// GetArticleList 获取文章列表
+func GetArticleList(ctx *gin.Context) {
+	var getArticleListReq model.GetArticleListReq
+	err := ctx.ShouldBindJSON(&getArticleListReq)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	uidStr := ctx.GetString("userID")
+	uid, _ := strconv.ParseInt(uidStr, 10, 64)
+	if uid == 0 {
+		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})
+		return
+	}
+	resp, err := Svc.GetArticleList(ctx.Request.Context(), &getArticleListReq)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{"error": err})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+}
+
+// GetArticleInfo 获取文章详情
+func GetArticleInfo(ctx *gin.Context) {
+	var getArticleByIdReq model.GetArticleByIdReq
+	err := ctx.ShouldBindJSON(&getArticleByIdReq)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	uidStr := ctx.GetString("userID")
+	uid, _ := strconv.ParseInt(uidStr, 10, 64)
+	resp, err := Svc.GetArticleById(ctx.Request.Context(), &getArticleByIdReq, uid)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+}

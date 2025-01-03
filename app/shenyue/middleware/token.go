@@ -2,13 +2,13 @@ package middleware
 
 import (
 	"fmt"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 )
 
 // JWT 密钥
@@ -54,6 +54,9 @@ func AuthMiddleware(c *gin.Context) {
 
 	// 将用户 ID 等信息存储到上下文，方便后续使用
 	c.Set("userID", claims.Issuer)
+	// 生成唯一的请求ID
+	requestID := uuid.New().String()
+	c.Set("request_id", requestID)
 	c.Next()
 }
 

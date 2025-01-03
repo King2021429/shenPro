@@ -14,8 +14,9 @@ type GetArticleListReq struct {
 }
 
 type GetArticleListResp struct {
+	Total       int64     `json:"total"`
+	ArticleList []Article `json:"article_list"`
 }
-
 type DeleteArticleReq struct {
 	ArticleId int64 `json:"article_id"`
 }
@@ -37,4 +38,5 @@ type GetArticleByIdReq struct {
 }
 
 type GetArticleByIdResp struct {
+	Article Article `json:"article_api"`
 }

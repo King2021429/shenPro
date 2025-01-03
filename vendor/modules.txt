@@ -105,6 +105,9 @@ github.com/goccy/go-json/internal/errors
 github.com/goccy/go-json/internal/runtime
 # github.com/google/go-cmp v0.6.0
 ## explicit; go 1.13
+# github.com/google/uuid v1.6.0
+## explicit
+github.com/google/uuid
 # github.com/gopherjs/gopherjs v1.17.2
 ## explicit; go 1.17
 github.com/gopherjs/gopherjs/js
