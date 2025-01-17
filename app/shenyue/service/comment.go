@@ -67,22 +67,3 @@ func (s *Service) DeleteComment(ctx context.Context, req *model.DeleteCommentReq
 	}
 	return resp, nil
 }
-
-// GetCommentById 根据id获取评论
-func (s *Service) GetCommentById(ctx context.Context, req *model.GetCommentByIdReq, uid int64) (resp *model.GetCommentByIdResp, err error) {
-	resp = &model.GetCommentByIdResp{}
-	comment, err := s.dao.GetComment(ctx, uint(req.CommentId))
-	if err != nil {
-		return nil, err
-	}
-	if comment.UID != uid {
-		return nil, err
-	}
-	comment, err = s.dao.GetComment(ctx, uint(req.CommentId))
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-	resp.Comment = comment
-	return resp, nil
-}

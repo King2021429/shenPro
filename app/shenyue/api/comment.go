@@ -62,21 +62,3 @@ func DeleteComment(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
-
-// GetCommentInfo 获取评论详情
-func GetCommentInfo(ctx *gin.Context) {
-	var getCommentByIdReq model.GetCommentByIdReq
-	err := ctx.ShouldBindJSON(&getCommentByIdReq)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	uidStr := ctx.GetString("userID")
-	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	resp, err := Svc.GetCommentById(ctx.Request.Context(), &getCommentByIdReq, uid)
-	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
-	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
-}
