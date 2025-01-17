@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"shenyue-gin/app/shenyue/errorcode"
+	"shenyue-gin/app/shenyue/model"
 	"strconv"
 )
 
@@ -55,29 +56,6 @@ func DeleteComment(ctx *gin.Context) {
 	uidStr := ctx.GetString("userID")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, err := Svc.DeleteComment(ctx.Request.Context(), &deleteCommentReq, uid)
-	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
-		return
-	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
-}
-
-// GetCommentList 获取评论列表
-func GetCommentList(ctx *gin.Context) {
-	var getCommentListReq model.GetCommentListReq
-	err := ctx.ShouldBindJSON(&getCommentListReq)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	uidStr := ctx.GetString("userID")
-	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	if uid == 0 {
-		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})
-		return
-	}
-	resp, err := Svc.GetCommentList(ctx.Request.Context(), &getCommentListReq)
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{"error": err})
 		return
