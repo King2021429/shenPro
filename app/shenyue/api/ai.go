@@ -30,9 +30,15 @@ func AIConversationSendMsg(ctx *gin.Context) {
 
 // AIConversationDelete 删除对话
 func AIConversationDelete(ctx *gin.Context) {
-
+	var conversationDeleteReq model.ConversationDeleteReq
+	err := ctx.ShouldBindJSON(&conversationDeleteReq)
+	if err != nil {
+		fmt.Println(err)
+	}
+	resp, err := Svc.AIChatDelete(ctx.Request.Context(), &conversationDeleteReq)
+	if err != nil {
+		fmt.Println(err)
+		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
-
-// 根据conversation_id获取历史记录
-
-// 获取会话列表

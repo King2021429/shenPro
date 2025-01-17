@@ -103,3 +103,20 @@ func GetArticleInfo(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
+
+func LikeArticle(ctx *gin.Context) {
+	var likeArticleReq model.LikeArticleReq
+	err := ctx.ShouldBindJSON(&likeArticleReq)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	uidStr := ctx.GetString("userID")
+	uid, _ := strconv.ParseInt(uidStr, 10, 64)
+	resp, errCode := Svc.LikeArticle(ctx.Request.Context(), &likeArticleReq, uid)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, gin.H{"error": errCode})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+}

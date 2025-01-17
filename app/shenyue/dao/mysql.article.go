@@ -64,7 +64,7 @@ func (d *Dao) DeleteArticleCollection(ctx context.Context, id uint) error {
 }
 
 // CreateArticleLike 创建文章点赞
-func (d *Dao) CreateArticleLike(ctx context.Context, like model.ArticleLike) error {
+func (d *Dao) CreateArticleLike(ctx context.Context, like *model.ArticleLike) error {
 	return d.db.Create(&like).Error
 }
 
@@ -76,7 +76,7 @@ func (d *Dao) GetArticleLike(ctx context.Context, id uint) (model.ArticleLike, e
 }
 
 // UpdateArticleLike  更新文章点赞
-func (d *Dao) UpdateArticleLike(ctx context.Context, like model.ArticleLike) error {
+func (d *Dao) UpdateArticleLike(ctx context.Context, like *model.ArticleLike) error {
 	return d.db.Save(&like).Error
 }
 

@@ -66,3 +66,13 @@ func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSend
 	fmt.Println(res)
 	return resp, nil
 }
+
+func (s *Service) AIChatDelete(ctx context.Context, req *model.ConversationDeleteReq) (resp *model.ConversationDeleteResp, err error) {
+	resp = &model.ConversationDeleteResp{}
+	err = s.dao.RcDelConversation(ctx, req.ConversationId)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	return resp, nil
+}

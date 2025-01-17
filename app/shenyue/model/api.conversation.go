@@ -15,3 +15,10 @@ type ConversationSendMsgReq struct {
 type ConversationSendMsgResp struct {
 	Reply string `json:"reply"`
 }
+
+type ConversationDeleteReq struct {
+	ConversationId int64 `json:"conversation_id"`
+}
+
+type ConversationDeleteResp struct {
+}

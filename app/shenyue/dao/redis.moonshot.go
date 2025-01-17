@@ -27,3 +27,12 @@ func (d *Dao) RcGetConversation(ctx context.Context, conversationId int64) (valu
 	}
 	return
 }
+
+func (d *Dao) RcDelConversation(ctx context.Context, conversationId int64) (err error) {
+	key := fmt.Sprintf(_rcKeyConversationId, conversationId)
+	err = d.RcDel(ctx, key)
+	if err != nil {
+		return
+	}
+	return
+}
