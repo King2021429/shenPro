@@ -3,7 +3,6 @@ package configs
 import (
 	"fmt"
 	"github.com/BurntSushi/toml"
-	"os"
 )
 
 // DbConfig 结构体用于存储 Db 部分的配置
@@ -47,12 +46,10 @@ func GetConfig() *Config {
 func InitConfig() {
 	var url string
 	// 根据环境读取配置文件
-	v := os.Getenv("env")
-	if v == "local" {
-		url = "app/shenyue/configs/local.toml"
-	} else {
-		url = "app/shenyue/configs/prod.toml"
-	}
+	//v := os.Getenv("env")
+	url = "app/shenyue/configs/local.toml"
+	//url = "/www/wwwroot/goproject/shenyue-gin/app/shenyue/configs/prod.toml"
+
 	if _, err := toml.DecodeFile(url, &conf); err != nil {
 		fmt.Println("读取TOML文件出错:", err)
 		return

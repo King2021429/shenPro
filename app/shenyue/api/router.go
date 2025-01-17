@@ -42,6 +42,13 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/article/getList", GetArticleList)
 		protectedGroup.POST("/article/getInfo", GetArticleInfo)
 
+		// 文章相关接口
+		protectedGroup.POST("/comment/create", CreateComment)
+		protectedGroup.POST("/comment/delete", DeleteComment)
+		protectedGroup.POST("/comment/edit", EditComment)
+		protectedGroup.POST("/comment/getList", GetCommentList)
+		protectedGroup.POST("/comment/getInfo", GetCommentInfo)
+
 		// AI的两个
 		protectedGroup.POST("/ai/conversation_start", AIConversationStart)
 		protectedGroup.POST("/ai/conversation_send_msg", AIConversationSendMsg)
