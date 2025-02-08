@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	cfg "shenyue-gin/app/shenyue/configs"
+	"shenyue-gin/app/shenyue/model"
 )
 
 // Dao
@@ -36,30 +37,30 @@ func NewGorm(cfg *cfg.Config) (newdb *gorm.DB) {
 	}
 
 	// 自动迁移表结构
-	//err = newdb.AutoMigrate(&model.User{})
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//err = newdb.AutoMigrate(&model.Article{})
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//err = newdb.AutoMigrate(&model.Comment{})
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//err = newdb.AutoMigrate(&model.UserFollow{})
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//err = newdb.AutoMigrate(&model.ArticleCollection{})
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//err = newdb.AutoMigrate(&model.ArticleLike{})
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
+	err = newdb.AutoMigrate(&model.User{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.Article{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.Comment{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.UserFollow{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.ArticleCollection{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = newdb.AutoMigrate(&model.ArticleLike{})
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return newdb
 }

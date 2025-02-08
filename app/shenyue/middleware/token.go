@@ -26,6 +26,7 @@ func GenerateToken(userID uint) (string, error) {
 
 // AuthMiddleware 用于验证 JWT
 // Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzUzODk4MDUsImlzcyI6IjAifQ.4YsG5MX6eGgoLXCwTldfH-JfdSV-mMSv152A3RYsVlQ
+// 需要新增访客模式
 func AuthMiddleware(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" {

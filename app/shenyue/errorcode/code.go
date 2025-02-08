@@ -8,7 +8,7 @@ func BuildDataResponse(ctx *gin.Context, data interface{}) map[string]interface{
 	requestId := ctx.GetString("request_id")
 	response["request_id"] = requestId
 	response["code"] = 0
-	response["message"] = ""
+	response["message"] = "ok"
 	response["data"] = data
 	return response
 }

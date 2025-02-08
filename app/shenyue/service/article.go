@@ -11,18 +11,18 @@ func (s *Service) CreateArticle(ctx context.Context, req *model.CreateArticleReq
 	resp = &model.CreateArticleResp{}
 	if req.Title == "" || req.Content == "" || uid == 0 {
 		return nil, errorcode.ErrParam
-
 	}
 	newArticle := &model.Article{
 		UID:     uid,
 		Content: req.Content,
 		Title:   req.Title,
 	}
-	errDb := s.dao.CreateArticle(ctx, newArticle)
+	id, errDb := s.dao.CreateArticle(ctx, newArticle)
 	if errDb != nil {
 		fmt.Println(errDb)
 		return nil, errorcode.ERROR
 	}
+	resp.Id = int64(id)
 	return resp, 0
 }
 

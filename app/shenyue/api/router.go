@@ -21,16 +21,21 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		// 回掉 b站商业化客服回掉
 		publicGroup.POST("webhook", Webhook)
 
-		// 用户 注册 登陆
-		publicGroup.POST("user/register", registerUser)
-		publicGroup.POST("user/login", loginUser)
-
 		// 测试
 		publicGroup.GET("test/id/:id", TestId)
 		publicGroup.POST("test/path/*path", TestPath)
 	}
 
-	// 受保护路由
+	userGroup := e.Group("/user")
+	{
+		// 用户 注册 登陆
+		userGroup.POST("/register", registerUser)
+		userGroup.POST("/login", loginUser)
+
+		// 查询文章列表
+	}
+
+	// 需要用户登陆态
 	protectedGroup := e.Group("/protected", middleware.AuthMiddleware)
 	{
 		protectedGroup.GET("/user/getUserInfo", getUserInfo)
@@ -42,18 +47,21 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/article/getList", GetArticleList)
 		protectedGroup.POST("/article/getInfo", GetArticleInfo)
 
-		// 点赞相关接口
-		protectedGroup.POST("article/like", LikeArticle)
+		// 文章点赞相关接口
+		protectedGroup.POST("/article/like", LikeArticle)
 
-		// 文章相关接口
+		// 评论相关接口
 		protectedGroup.POST("/comment/create", CreateComment)
 		protectedGroup.POST("/comment/delete", DeleteComment)
 		protectedGroup.POST("/comment/edit", EditComment)
+
+		// 评论点赞相关接口
 
 		// AI的三个
 		protectedGroup.POST("/ai/conversation_start", AIConversationStart)
 		protectedGroup.POST("/ai/conversation_send_msg", AIConversationSendMsg)
 		protectedGroup.POST("/ai/conversation_delete", AIConversationDelete)
+		// ai对话列表 根据用户来查询
 
 	}
 

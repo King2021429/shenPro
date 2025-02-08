@@ -6,6 +6,7 @@ type CreateArticleReq struct {
 }
 
 type CreateArticleResp struct {
+	Id int64 `json:"id"`
 }
 
 type GetArticleListReq struct {

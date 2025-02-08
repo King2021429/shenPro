@@ -15,21 +15,23 @@ type User struct {
 	Status   int64 `gorm:"default:0"`
 }
 
-// 文章表结构体
+// Article 文章表结构体
 type Article struct {
 	gorm.Model
 	UID     int64  `gorm:"not null"`
 	Title   string `gorm:"not null"`
 	Content string `gorm:"not null"`
+	Cover   string `gorm:"not null"`
 }
 
-// 评论表结构体
+// Comment 评论结构体
 type Comment struct {
 	gorm.Model
-	UID             int64 `gorm:"not null"`
-	ArticleID       int64 `gorm:"not null"`
-	ParentCommentID *int64
-	Content         string `gorm:"not null"`
+	ArticleID int64      `gorm:"not null" json:"article_id"`
+	Uid       int64      `gorm:"not null" json:"uid"`
+	Content   string     `gorm:"type:text;not null" json:"content"`
+	ParentID  int64      `gorm:"default:0" json:"parent_id"`
+	Replies   []*Comment `gorm:"-" json:"replies"` // 使用 gorm:"-" 标记该字段不映射到数据库
 }
 
 // UserFollow 用户关注表结构体
@@ -56,3 +58,8 @@ type ArticleLike struct {
 	ArticleID int64 `gorm:"not null"`
 	Status    int64 `gorm:"default:0"`
 }
+
+//GORM 通过结构体字段标签和内部约定来识别和处理
+//gorm.Model 中的各个字段。
+//在创建、更新和删除记录时，GORM 会根据这些规则自动完成相应的操作
+//并与数据库进行交互，确保数据的一致性和完整性。

@@ -14,8 +14,9 @@ func (s *Service) CreateComment(ctx context.Context, req *model.CreateCommentReq
 		return nil, errorcode.ErrParam
 	}
 	newComment := &model.Comment{
-		UID:     uid,
-		Content: req.Content,
+		ArticleID: req.ArticleID,
+		Uid:       uid,
+		Content:   req.Content,
 	}
 	errDb := s.dao.CreateComment(ctx, *newComment)
 	if errDb != nil {
@@ -35,11 +36,11 @@ func (s *Service) EditComment(ctx context.Context, req *model.EditCommentReq, ui
 	if err != nil {
 		return nil, err
 	}
-	if comment.UID != uid {
+	if comment.Uid != uid {
 		return nil, nil
 	}
 	newComment := &model.Comment{
-		UID:     uid,
+		Uid:     uid,
 		Content: req.Content,
 	}
 	errDb := s.dao.UpdateComment(ctx, *newComment)
@@ -57,7 +58,7 @@ func (s *Service) DeleteComment(ctx context.Context, req *model.DeleteCommentReq
 	if err != nil {
 		return nil, err
 	}
-	if comment.UID != uid {
+	if comment.Uid != uid {
 		return nil, err
 	}
 	err = s.dao.DeleteComment(ctx, uint(req.CommentId))

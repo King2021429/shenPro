@@ -7,8 +7,12 @@ import (
 )
 
 // CreateArticle 创建文章
-func (d *Dao) CreateArticle(ctx context.Context, article *model.Article) error {
-	return d.db.Create(&article).Error
+func (d *Dao) CreateArticle(ctx context.Context, article *model.Article) (uint, error) {
+	result := d.db.Create(article)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return article.ID, nil
 }
 
 // GetArticleById 获取文章
