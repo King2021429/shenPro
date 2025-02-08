@@ -62,3 +62,17 @@ func DeleteComment(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
+
+func GetCommentList(ctx *gin.Context) {
+	var getCommentListReq model.GetCommentListReq
+	err := ctx.ShouldBindJSON(&getCommentListReq)
+	if err != nil {
+		fmt.Println(err)
+	}
+	resp, errCode := Svc.GetCommentsByArticleId(ctx.Request.Context(), &getCommentListReq)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
+		return
+	}
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
+}

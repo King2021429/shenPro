@@ -54,6 +54,7 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/comment/create", CreateComment)
 		protectedGroup.POST("/comment/delete", DeleteComment)
 		protectedGroup.POST("/comment/edit", EditComment)
+		protectedGroup.POST("/comment/getList", GetCommentList)
 
 		// 评论点赞相关接口
 
