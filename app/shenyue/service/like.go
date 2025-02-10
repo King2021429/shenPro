@@ -24,11 +24,16 @@ func (s *Service) LikeArticle(ctx context.Context, req *model.LikeArticleReq, ui
 		fmt.Println(err)
 		return nil, errorcode.ErrParam
 	}
+	fmt.Println(1)
 
 	// 获取文章点赞信息
-	articleLike, err := s.dao.GetArticleLike(ctx, uint(req.ArticleId))
+	articleLike, err := s.dao.GetArticleLikeByUserAndArticle(ctx, uid, req.ArticleId)
+	fmt.Println(2)
+
 	if err != nil {
 		// 如果没有点赞记录，创建一个新的点赞记录
+		fmt.Println(3)
+
 		newArticleLike := &model.ArticleLike{
 			UserID:    uid,
 			ArticleID: req.ArticleId,
@@ -40,14 +45,14 @@ func (s *Service) LikeArticle(ctx context.Context, req *model.LikeArticleReq, ui
 			return nil, errorcode.ErrParam
 		}
 	} else {
+		fmt.Println(4)
 		// 如果已经有点赞记录，更新点赞状态
-		articleLike.Status = req.Status
-		err = s.dao.UpdateArticleLike(ctx, &articleLike)
+		err = s.dao.UpdateArticleLikeStatus(ctx, int64(articleLike.ID), req.Status)
 		if err != nil {
 			fmt.Println(err)
 			return nil, errorcode.ErrParam
 		}
 	}
 
-	return resp, errorcode.ErrParam
+	return resp, 0
 }

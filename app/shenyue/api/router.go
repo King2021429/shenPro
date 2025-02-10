@@ -48,7 +48,9 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/article/getInfo", GetArticleInfo)
 
 		// 文章点赞相关接口
-		protectedGroup.POST("/article/like", LikeArticle)
+
+		protectedGroup.POST("/article/like", LikeArticle) //点赞 点踩
+		// 根据uid获取全部点赞/点踩文章
 
 		// 评论相关接口
 		protectedGroup.POST("/comment/create", CreateComment)

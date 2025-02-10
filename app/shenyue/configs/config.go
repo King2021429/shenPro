@@ -47,7 +47,7 @@ func InitConfig() {
 	var url string
 	// 根据环境读取配置文件
 	//v := os.Getenv("env")
-	url = "app/shenyue/configs/local.toml"
+	url = "/Users/shenyue/go/src/shenyue-gin/app/shenyue/configs/local.toml"
 	//url = "/www/wwwroot/goproject/shenyue-gin/app/shenyue/configs/prod.toml"
 
 	if _, err := toml.DecodeFile(url, &conf); err != nil {

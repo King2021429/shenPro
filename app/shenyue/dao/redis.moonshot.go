@@ -19,7 +19,7 @@ func (d *Dao) RcSetConversation(ctx context.Context, conversationId, uid int64, 
 	return
 }
 
-func (d *Dao) RcGetConversation(ctx context.Context, conversationId, uid int64) (value string, err error) {
+func (d *Dao) RcGetConversation(ctx context.Context, uid, conversationId int64) (value string, err error) {
 	key := fmt.Sprintf(_rcKeyConversationId, conversationId, uid)
 	value, err = d.RcGet(ctx, key)
 	if err != nil {

@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"fmt"
+	"gorm.io/gorm"
 	"shenyue-gin/app/shenyue/model"
 )
 
@@ -79,7 +80,27 @@ func (d *Dao) GetArticleLike(ctx context.Context, id uint) (model.ArticleLike, e
 	return like, err
 }
 
-// UpdateArticleLike  更新文章点赞
-func (d *Dao) UpdateArticleLike(ctx context.Context, like *model.ArticleLike) error {
-	return d.db.Save(&like).Error
+// GetArticleLikeByUserAndArticle 根据 UserID 和 ArticleID 查询记录
+func (d *Dao) GetArticleLikeByUserAndArticle(ctx context.Context, userID, articleID int64) (*model.ArticleLike, error) {
+	var articleLike model.ArticleLike
+	result := d.db.WithContext(ctx).Where("user_id = ? AND article_id = ?", userID, articleID).First(&articleLike)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return nil, nil // 未找到记录
+		}
+		return nil, result.Error // 其他错误
+	}
+	return &articleLike, nil
+}
+
+// UpdateArticleLikeStatus 根据 ID 更新 ArticleLike 的 Status
+func (d *Dao) UpdateArticleLikeStatus(ctx context.Context, id, newStatus int64) error {
+	result := d.db.WithContext(ctx).Model(&model.ArticleLike{}).Where("id = ?", id).Update("status", newStatus)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
 }
