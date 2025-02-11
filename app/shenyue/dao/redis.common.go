@@ -27,6 +27,7 @@ func (d *Dao) RcGet(ctx context.Context, key string) (value string, err error) {
 	return
 }
 
+// RcDel 删除键值对
 func (d *Dao) RcDel(ctx context.Context, key string) (err error) {
 	err = d.rdb.Del(key).Err()
 	if err != nil {
