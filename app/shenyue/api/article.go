@@ -104,6 +104,7 @@ func GetArticleInfo(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
 
+// LikeArticle 点赞文章
 func LikeArticle(ctx *gin.Context) {
 	var likeArticleReq model.LikeArticleReq
 	err := ctx.ShouldBindJSON(&likeArticleReq)
