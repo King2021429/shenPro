@@ -63,6 +63,7 @@ func DeleteComment(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
 
+// GetCommentList 根据文章内容获取评论列表
 func GetCommentList(ctx *gin.Context) {
 	var getCommentListReq model.GetCommentListReq
 	err := ctx.ShouldBindJSON(&getCommentListReq)

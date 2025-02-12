@@ -9,3 +9,12 @@ type LikeArticleReq struct {
 // LikeArticleResp 点赞响应结构体
 type LikeArticleResp struct {
 }
+
+// LikeArticleListReq 点赞列表请求结构体
+type LikeArticleListReq struct {
+	UserId int64 `json:"user_id"`
+}
+
+type LikeArticleListResp struct {
+	ArticleList []Article `json:"article_list"`
+}

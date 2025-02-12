@@ -31,3 +31,16 @@ type OllamaResponse struct {
 //通用对话	1.3
 //翻译	1.3
 //创意类写作/诗歌创作	1.5
+
+const (
+	TaskCodeGenerationMath     = 0.0
+	TaskCommon                 = 0.3
+	TaskDataExtractionAnalysis = 1.0
+	TaskGeneralConversation    = 1.3
+	TaskTranslation            = 1.3
+	TaskCreativeWritingPoetry  = 1.5
+)
+const (
+	DeepSeekModel = "deepseek-r1"
+	MoonshotModel = "moonshot-v1-8k"
+)

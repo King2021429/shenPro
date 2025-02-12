@@ -104,3 +104,23 @@ func (d *Dao) UpdateArticleLikeStatus(ctx context.Context, id, newStatus int64) 
 	}
 	return nil
 }
+
+// GetArticleLikesByUser 根据用户ID查询点赞的文章列表
+func (d *Dao) GetArticleLikesByUser(ctx context.Context, userId int64) ([]model.ArticleLike, error) {
+	var articleLikes []model.ArticleLike
+	err := d.db.WithContext(ctx).Where("user_id = ?", userId).Find(&articleLikes).Error
+	if err != nil {
+		return nil, fmt.Errorf("failed to get article likes by user: %w", err)
+	}
+	return articleLikes, nil
+}
+
+// GetArticlesByIds 根据文章ID列表查询文章信息
+func (d *Dao) GetArticlesByIds(ctx context.Context, articleIds []int64) ([]model.Article, error) {
+	var articles []model.Article
+	err := d.db.WithContext(ctx).Where("id IN ?", articleIds).Find(&articles).Error
+	if err != nil {
+		return nil, fmt.Errorf("failed to get articles by ids: %w", err)
+	}
+	return articles, nil
+}

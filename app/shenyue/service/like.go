@@ -56,3 +56,38 @@ func (s *Service) LikeArticle(ctx context.Context, req *model.LikeArticleReq, ui
 
 	return resp, 0
 }
+
+// GetLikeList 获取用户点赞列表
+func (s *Service) GetLikeList(ctx context.Context, req *model.LikeArticleListReq) (resp *model.LikeArticleListResp, errCode int64) {
+	resp = &model.LikeArticleListResp{}
+
+	// 检查请求参数
+	if req.UserId == 0 {
+		return nil, errorcode.ErrParam
+	}
+
+	// 根据用户ID查询点赞的文章列表
+	articleLikes, err := s.dao.GetArticleLikesByUser(ctx, req.UserId)
+	if err != nil {
+		fmt.Println(err)
+		return nil, errorcode.ErrParam
+	}
+
+	// 提取文章ID列表
+	articleIds := make([]int64, 0, len(articleLikes))
+	for _, like := range articleLikes {
+		articleIds = append(articleIds, int64(like.ArticleID))
+	}
+
+	// 根据文章ID列表查询文章信息
+	articles, err := s.dao.GetArticlesByIds(ctx, articleIds)
+	if err != nil {
+		fmt.Println(err)
+		return nil, errorcode.ErrParam
+	}
+
+	// 将文章信息填充到响应结构体中
+	resp.ArticleList = articles
+
+	return resp, 0
+}

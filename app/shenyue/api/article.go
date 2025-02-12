@@ -121,3 +121,7 @@ func LikeArticle(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
+
+func GetLikeList(ctx *gin.Context) {
+
+}
