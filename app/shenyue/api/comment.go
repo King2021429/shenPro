@@ -37,12 +37,12 @@ func EditComment(ctx *gin.Context) {
 
 	uidStr := ctx.GetString("uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	resp, err := Svc.EditComment(ctx.Request.Context(), &comment, uid)
-	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	resp, errCode := Svc.EditComment(ctx.Request.Context(), &comment, uid)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
 
 // DeleteComment 删除评论
@@ -55,12 +55,12 @@ func DeleteComment(ctx *gin.Context) {
 
 	uidStr := ctx.GetString("uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	resp, err := Svc.DeleteComment(ctx.Request.Context(), &deleteCommentReq, uid)
-	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	resp, errCode := Svc.DeleteComment(ctx.Request.Context(), &deleteCommentReq, uid)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
 
 // GetCommentList 根据文章内容获取评论列表

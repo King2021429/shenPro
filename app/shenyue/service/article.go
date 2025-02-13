@@ -26,77 +26,77 @@ func (s *Service) CreateArticle(ctx context.Context, req *model.CreateArticleReq
 	return resp, 0
 }
 
-func (s *Service) EditArticle(ctx context.Context, req *model.EditArticleReq, Uid int64) (resp *model.EditArticleResp, err error) {
+func (s *Service) EditArticle(ctx context.Context, req *model.EditArticleReq, Uid int64) (resp *model.EditArticleResp, err int64) {
 	resp = &model.EditArticleResp{}
 	if req.Title == "" || req.Content == "" || Uid == 0 {
-		return nil, nil
+		return nil, errorcode.ErrParam
 	}
-	article, err := s.dao.GetArticleById(ctx, uint(req.ArticleId))
-	if err != nil {
-		return nil, err
+	article, errDb := s.dao.GetArticleById(ctx, uint(req.ArticleId))
+	if errDb != nil {
+		return nil, errorcode.ERROR
 	}
 	if article.Uid != Uid {
-		return nil, nil
+		return nil, errorcode.ERROR
 	}
 	newArticle := &model.Article{
 		Uid:     Uid,
 		Content: req.Content,
 		Title:   req.Title,
 	}
-	errDb := s.dao.UpdateArticle(ctx, newArticle)
+	errDb = s.dao.UpdateArticle(ctx, newArticle)
 	if errDb != nil {
 		fmt.Println(errDb)
-		return nil, nil
+		return nil, errorcode.ERROR
 	}
-	return resp, nil
+	return resp, 0
 }
 
-func (s *Service) GetArticleList(ctx context.Context, req *model.GetArticleListReq) (resp *model.GetArticleListResp, err error) {
+func (s *Service) GetArticleList(ctx context.Context, req *model.GetArticleListReq) (resp *model.GetArticleListResp, err int64) {
 	resp = &model.GetArticleListResp{}
 	if req.PageNum <= 0 || req.PageSize <= 0 || req.PageSize >= 10000 {
-		return nil, nil
+		return nil, errorcode.ERROR
 	}
-	list, err := s.dao.GetArticleList(ctx, int(req.PageSize), int(req.PageNum))
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+	list, errDb := s.dao.GetArticleList(ctx, int(req.PageSize), int(req.PageNum))
+	if errDb != nil {
+		fmt.Println(errDb)
+		return nil, errorcode.ERROR
 	}
 	resp.ArticleList = list
-	return resp, nil
+	return resp, 0
 }
 
-func (s *Service) DeleteArticle(ctx context.Context, req *model.DeleteArticleReq, Uid int64) (resp *model.GetArticleListResp, err error) {
+func (s *Service) DeleteArticle(ctx context.Context, req *model.DeleteArticleReq, Uid int64) (resp *model.GetArticleListResp, err int64) {
 	resp = &model.GetArticleListResp{}
-	article, err := s.dao.GetArticleById(ctx, uint(req.ArticleId))
-	if err != nil {
-		return nil, err
+	article, errDb := s.dao.GetArticleById(ctx, uint(req.ArticleId))
+	if errDb != nil {
+		return nil, errorcode.ERROR
 	}
 	if article.Uid != Uid {
-		return nil, err
+		return nil, errorcode.ERROR
 	}
-	err = s.dao.DeleteArticle(ctx, uint(req.ArticleId))
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+	errDb = s.dao.DeleteArticle(ctx, uint(req.ArticleId))
+	if errDb != nil {
+		fmt.Println(errDb)
+		return nil, errorcode.ERROR
 	}
-	return resp, nil
+	return resp, 0
 }
 
 // GetArticleById 根据id获取文章
-func (s *Service) GetArticleById(ctx context.Context, req *model.GetArticleByIdReq, Uid int64) (resp *model.GetArticleByIdResp, err error) {
+func (s *Service) GetArticleById(ctx context.Context, req *model.GetArticleByIdReq, Uid int64) (resp *model.GetArticleByIdResp, err int64) {
 	resp = &model.GetArticleByIdResp{}
-	article, err := s.dao.GetArticleById(ctx, uint(req.ArticleId))
-	if err != nil {
-		return nil, err
+	article, errDb := s.dao.GetArticleById(ctx, uint(req.ArticleId))
+	if errDb != nil {
+		return nil, errorcode.ERROR
 	}
 	if article.Uid != Uid {
-		return nil, err
+		return nil, errorcode.ERROR
 	}
-	article, err = s.dao.GetArticleById(ctx, uint(req.ArticleId))
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+	article, errDb = s.dao.GetArticleById(ctx, uint(req.ArticleId))
+	if errDb != nil {
+		fmt.Println(errDb)
+		return nil, errorcode.ERROR
 	}
 	resp.Article = article
-	return resp, nil
+	return resp, 0
 }

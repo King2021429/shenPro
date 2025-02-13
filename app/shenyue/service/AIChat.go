@@ -41,14 +41,14 @@ func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSend
 	resp = &model.ConversationSendMsgResp{}
 	value, err := s.dao.RcGetConversation(ctx, req.Uid, req.ConversationId)
 	if err != nil {
-		return
+		return resp, err
 	}
 	// 将JSON字符串转换回结构体切片
 	var newHistory []model.Message
 	err = json.Unmarshal([]byte(value), &newHistory)
 	if err != nil {
 		fmt.Println("从JSON字符串转换回结构体失败:", err)
-		return
+		return resp, err
 	}
 	res := s.dao.AIChat(req.Content, &newHistory)
 	// 将结构体切片转换为JSON字符串

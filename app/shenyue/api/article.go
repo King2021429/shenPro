@@ -37,12 +37,12 @@ func EditArticle(ctx *gin.Context) {
 
 	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	resp, err := Svc.EditArticle(ctx.Request.Context(), &article, uid)
-	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	resp, errCode := Svc.EditArticle(ctx.Request.Context(), &article, uid)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
 
 // DeleteArticle 删除文章
@@ -55,12 +55,12 @@ func DeleteArticle(ctx *gin.Context) {
 
 	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	resp, err := Svc.DeleteArticle(ctx.Request.Context(), &deleteArticleReq, uid)
-	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	resp, errCode := Svc.DeleteArticle(ctx.Request.Context(), &deleteArticleReq, uid)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
 
 // GetArticleList 获取文章列表
@@ -78,12 +78,12 @@ func GetArticleList(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})
 		return
 	}
-	resp, err := Svc.GetArticleList(ctx.Request.Context(), &getArticleListReq)
-	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	resp, errCode := Svc.GetArticleList(ctx.Request.Context(), &getArticleListReq)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
 
 // GetArticleInfo 获取文章详情
@@ -97,11 +97,12 @@ func GetArticleInfo(ctx *gin.Context) {
 
 	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	resp, err := Svc.GetArticleById(ctx.Request.Context(), &getArticleByIdReq, uid)
-	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err})
+	resp, errCode := Svc.GetArticleById(ctx.Request.Context(), &getArticleByIdReq, uid)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
+		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
 
 // LikeArticle 点赞文章
@@ -116,10 +117,10 @@ func LikeArticle(ctx *gin.Context) {
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, errCode := Svc.LikeArticle(ctx.Request.Context(), &likeArticleReq, uid)
 	if errCode != 0 {
-		ctx.JSON(http.StatusOK, gin.H{"error": errCode})
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
 
 // GetLikeList 根据用户id获取点赞列表
@@ -138,10 +139,10 @@ func GetLikeList(ctx *gin.Context) {
 	}
 	resp, errCode := Svc.GetLikeList(ctx.Request.Context(), &likeArticleListReq)
 	if errCode != 0 {
-		ctx.JSON(http.StatusOK, gin.H{"error": errCode})
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 
 }
 
@@ -157,10 +158,10 @@ func FavoriteArticle(ctx *gin.Context) {
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, errCode := Svc.FavoriteArticle(ctx.Request.Context(), &favoriteArticleReq, uid)
 	if errCode != 0 {
-		ctx.JSON(http.StatusOK, gin.H{"error": errCode})
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }
 
 // GetFavoriteList 根据用户id获取收藏列表
@@ -179,8 +180,8 @@ func GetFavoriteList(ctx *gin.Context) {
 	}
 	resp, errCode := Svc.GetFavoriteList(ctx.Request.Context(), &favoriteArticleListReq)
 	if errCode != 0 {
-		ctx.JSON(http.StatusOK, gin.H{"error": errCode})
+		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+	ctx.JSON(http.StatusOK, errorcode.BuildDataResponse(ctx, resp))
 }

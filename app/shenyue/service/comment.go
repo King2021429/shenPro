@@ -29,46 +29,46 @@ func (s *Service) CreateComment(ctx context.Context, req *model.CreateCommentReq
 }
 
 // EditComment 编辑评论
-func (s *Service) EditComment(ctx context.Context, req *model.EditCommentReq, uid int64) (resp *model.EditCommentResp, err error) {
+func (s *Service) EditComment(ctx context.Context, req *model.EditCommentReq, uid int64) (resp *model.EditCommentResp, err int64) {
 	resp = &model.EditCommentResp{}
 	if req.Content == "" || uid == 0 {
-		return nil, nil
+		return nil, errorcode.ErrParam
 	}
-	comment, err := s.dao.GetComment(ctx, uint(req.CommentId))
-	if err != nil {
-		return nil, err
+	comment, errDb := s.dao.GetComment(ctx, uint(req.CommentId))
+	if errDb != nil {
+		return nil, errorcode.ERROR
 	}
 	if comment.Uid != uid {
-		return nil, nil
+		return nil, errorcode.ERROR
 	}
 	newComment := &model.Comment{
 		Uid:     uid,
 		Content: req.Content,
 	}
-	errDb := s.dao.UpdateComment(ctx, *newComment)
+	errDb = s.dao.UpdateComment(ctx, *newComment)
 	if errDb != nil {
 		fmt.Println(errDb)
-		return nil, nil
+		return nil, errorcode.ERROR
 	}
-	return resp, nil
+	return resp, 0
 }
 
 // DeleteComment 删除评论
-func (s *Service) DeleteComment(ctx context.Context, req *model.DeleteCommentReq, uid int64) (resp *model.GetCommentListResp, err error) {
+func (s *Service) DeleteComment(ctx context.Context, req *model.DeleteCommentReq, uid int64) (resp *model.GetCommentListResp, err int64) {
 	resp = &model.GetCommentListResp{}
-	comment, err := s.dao.GetComment(ctx, uint(req.CommentId))
-	if err != nil {
+	comment, errDb := s.dao.GetComment(ctx, uint(req.CommentId))
+	if errDb != nil {
 		return nil, err
 	}
 	if comment.Uid != uid {
-		return nil, err
+		return nil, errorcode.ERROR
 	}
-	err = s.dao.DeleteComment(ctx, uint(req.CommentId))
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+	errDb = s.dao.DeleteComment(ctx, uint(req.CommentId))
+	if errDb != nil {
+		fmt.Println(errDb)
+		return nil, errorcode.ERROR
 	}
-	return resp, nil
+	return resp, 0
 }
 
 // GetCommentsByArticleId 根据文章id获取评论列表
