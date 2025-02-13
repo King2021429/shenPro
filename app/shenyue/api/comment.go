@@ -17,7 +17,7 @@ func CreateComment(ctx *gin.Context) {
 		fmt.Println(err)
 	}
 
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, errCode := Svc.CreateComment(ctx.Request.Context(), &comment, uid)
 	if errCode != 0 {
@@ -35,7 +35,7 @@ func EditComment(ctx *gin.Context) {
 		fmt.Println(err)
 	}
 
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, err := Svc.EditComment(ctx.Request.Context(), &comment, uid)
 	if err != nil {
@@ -53,7 +53,7 @@ func DeleteComment(ctx *gin.Context) {
 		fmt.Println(err)
 	}
 
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, err := Svc.DeleteComment(ctx.Request.Context(), &deleteCommentReq, uid)
 	if err != nil {

@@ -15,9 +15,9 @@ import (
 const jwtSecret = "ced2850a8efb4b52aa5db779152fca5d"
 
 // GenerateToken 生成 JWT 令牌
-func GenerateToken(userID uint) (string, error) {
+func GenerateToken(uid uint) (string, error) {
 	claims := &jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(userID)),
+		Issuer:    strconv.Itoa(int(uid)),
 		ExpiresAt: time.Now().Add(time.Hour * 12).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -54,7 +54,7 @@ func AuthMiddleware(c *gin.Context) {
 	}
 
 	// 将用户 ID 等信息存储到上下文，方便后续使用
-	c.Set("userID", claims.Issuer)
+	c.Set("uid", claims.Issuer)
 	// 生成唯一的请求ID
 	requestID := uuid.New().String()
 	c.Set("request_id", requestID)
@@ -69,9 +69,9 @@ func AdminAuthMiddleware(c *gin.Context) {
 		return
 	}
 	// 从上下文中获取用户信息，假设用户信息存储在 claims 中
-	userID := c.GetString("userID")
-	// 这里可以根据 userID 从数据库中查询用户角色
-	fmt.Println(userID)
+	uid := c.GetString("uid")
+	// 这里可以根据 uid 从数据库中查询用户角色
+	fmt.Println(uid)
 	// 简单示例中直接从上下文中获取角色信息
 	role := c.GetString("role")
 	if role != "admin" {

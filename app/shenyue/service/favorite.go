@@ -22,16 +22,10 @@ func (s *Service) FavoriteArticle(ctx context.Context, req *model.FavoriteArticl
 		fmt.Println(err)
 		return nil, errorcode.ErrParam
 	}
-	fmt.Println(1)
-
 	// 获取文章点赞信息
 	articleLike, err := s.dao.GetArticleFavoriteByUserAndArticle(ctx, uid, req.ArticleId)
-	fmt.Println(2)
-
 	if err != nil {
 		// 如果没有点赞记录，创建一个新的点赞记录
-		fmt.Println(3)
-
 		newArticleLike := &model.ArticleFavorite{
 			Uid:       uid,
 			ArticleID: req.ArticleId,
@@ -43,7 +37,6 @@ func (s *Service) FavoriteArticle(ctx context.Context, req *model.FavoriteArticl
 			return nil, errorcode.ErrParam
 		}
 	} else {
-		fmt.Println(4)
 		// 如果已经有点赞记录，更新点赞状态
 		err = s.dao.UpdateArticleFavoriteStatus(ctx, int64(articleLike.ID), req.Status)
 		if err != nil {
@@ -60,12 +53,12 @@ func (s *Service) GetFavoriteList(ctx context.Context, req *model.FavoriteArticl
 	resp = &model.FavoriteArticleListResp{}
 
 	// 检查请求参数
-	if req.UserId == 0 {
+	if req.Uid == 0 {
 		return nil, errorcode.ErrParam
 	}
 
 	// 根据用户ID查询点赞的文章列表
-	articleFavoriteList, err := s.dao.GetArticleFavoriteByUser(ctx, req.UserId)
+	articleFavoriteList, err := s.dao.GetArticleFavoriteByUser(ctx, req.Uid)
 	if err != nil {
 		fmt.Println(err)
 		return nil, errorcode.ErrParam
@@ -86,6 +79,5 @@ func (s *Service) GetFavoriteList(ctx context.Context, req *model.FavoriteArticl
 
 	// 将文章信息填充到响应结构体中
 	resp.ArticleList = articles
-
 	return resp, 0
 }

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func (s *Service) AIChatStart(ctx context.Context, userId int64) (resp *model.ConversationStartResp, err error) {
+func (s *Service) AIChatStart(ctx context.Context, Uid int64) (resp *model.ConversationStartResp, err error) {
 	resp = &model.ConversationStartResp{}
 	// 使用时间戳作为随机数种子，确保每次运行生成的随机数不同
 	rand.Seed(time.Now().UnixNano())
@@ -27,7 +27,7 @@ func (s *Service) AIChatStart(ctx context.Context, userId int64) (resp *model.Co
 		fmt.Println("转换为JSON字符串失败:", err)
 		return
 	}
-	err = s.dao.RcSetConversation(ctx, int64(randomNumber), userId, string(jsonData))
+	err = s.dao.RcSetConversation(ctx, int64(randomNumber), Uid, string(jsonData))
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -39,7 +39,7 @@ func (s *Service) AIChatStart(ctx context.Context, userId int64) (resp *model.Co
 
 func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSendMsgReq) (resp *model.ConversationSendMsgResp, err error) {
 	resp = &model.ConversationSendMsgResp{}
-	value, err := s.dao.RcGetConversation(ctx, req.UserId, req.ConversationId)
+	value, err := s.dao.RcGetConversation(ctx, req.Uid, req.ConversationId)
 	if err != nil {
 		return
 	}
@@ -57,7 +57,7 @@ func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSend
 		fmt.Println("转换为JSON字符串失败:", err)
 		return
 	}
-	err = s.dao.RcSetConversation(ctx, req.ConversationId, req.UserId, string(jsonData))
+	err = s.dao.RcSetConversation(ctx, req.ConversationId, req.Uid, string(jsonData))
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -69,7 +69,7 @@ func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSend
 
 func (s *Service) AIChatDelete(ctx context.Context, req *model.ConversationDeleteReq) (resp *model.ConversationDeleteResp, err error) {
 	resp = &model.ConversationDeleteResp{}
-	err = s.dao.RcDelConversation(ctx, req.ConversationId, req.UserId)
+	err = s.dao.RcDelConversation(ctx, req.ConversationId, req.Uid)
 	if err != nil {
 		fmt.Println(err)
 		return

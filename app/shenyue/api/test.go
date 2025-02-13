@@ -5,9 +5,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 测试路由
+
 func TestId(ctx *gin.Context) {
 	param := ctx.Param("id")
-	uid, _ := ctx.Get("userID")
+	uid, _ := ctx.Get("uid")
 	fmt.Println(uid)
 	ctx.JSON(200, param)
 }

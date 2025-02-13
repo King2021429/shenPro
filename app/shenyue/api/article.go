@@ -17,7 +17,7 @@ func CreateArticle(ctx *gin.Context) {
 		fmt.Println(err)
 	}
 
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, errCode := Svc.CreateArticle(ctx.Request.Context(), &article, uid)
 	if errCode != 0 {
@@ -35,7 +35,7 @@ func EditArticle(ctx *gin.Context) {
 		fmt.Println(err)
 	}
 
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, err := Svc.EditArticle(ctx.Request.Context(), &article, uid)
 	if err != nil {
@@ -53,7 +53,7 @@ func DeleteArticle(ctx *gin.Context) {
 		fmt.Println(err)
 	}
 
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, err := Svc.DeleteArticle(ctx.Request.Context(), &deleteArticleReq, uid)
 	if err != nil {
@@ -72,7 +72,7 @@ func GetArticleList(ctx *gin.Context) {
 		return
 	}
 
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	if uid == 0 {
 		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})
@@ -95,7 +95,7 @@ func GetArticleInfo(ctx *gin.Context) {
 		return
 	}
 
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, err := Svc.GetArticleById(ctx.Request.Context(), &getArticleByIdReq, uid)
 	if err != nil {
@@ -112,7 +112,7 @@ func LikeArticle(ctx *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, errCode := Svc.LikeArticle(ctx.Request.Context(), &likeArticleReq, uid)
 	if errCode != 0 {
@@ -130,7 +130,7 @@ func GetLikeList(ctx *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	if uid == 0 {
 		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})
@@ -153,7 +153,7 @@ func FavoriteArticle(ctx *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, errCode := Svc.FavoriteArticle(ctx.Request.Context(), &favoriteArticleReq, uid)
 	if errCode != 0 {
@@ -171,7 +171,7 @@ func GetFavoriteList(ctx *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	if uid == 0 {
 		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})

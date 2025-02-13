@@ -66,10 +66,10 @@ func (d *Dao) CreateArticleLike(ctx context.Context, like *model.ArticleLike) er
 	return d.db.Create(&like).Error
 }
 
-// GetArticleLikeByUserAndArticle 根据 UserID 和 ArticleID 查询记录
-func (d *Dao) GetArticleLikeByUserAndArticle(ctx context.Context, userID, articleID int64) (*model.ArticleLike, error) {
+// GetArticleLikeByUserAndArticle 根据 Uid 和 ArticleID 查询记录
+func (d *Dao) GetArticleLikeByUserAndArticle(ctx context.Context, uid, articleID int64) (*model.ArticleLike, error) {
 	var articleLike model.ArticleLike
-	result := d.db.WithContext(ctx).Where("user_id = ? AND article_id = ?", userID, articleID).First(&articleLike)
+	result := d.db.WithContext(ctx).Where("uid = ? AND article_id = ?", uid, articleID).First(&articleLike)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return nil, nil // 未找到记录
@@ -94,7 +94,7 @@ func (d *Dao) UpdateArticleLikeStatus(ctx context.Context, id, newStatus int64) 
 // GetArticleLikesByUser 根据用户ID查询点赞的文章列表
 func (d *Dao) GetArticleLikesByUser(ctx context.Context, userId int64) ([]model.ArticleLike, error) {
 	var articleLikes []model.ArticleLike
-	err := d.db.WithContext(ctx).Where("user_id = ?", userId).Find(&articleLikes).Error
+	err := d.db.WithContext(ctx).Where("uid = ?", userId).Find(&articleLikes).Error
 	if err != nil {
 		return nil, fmt.Errorf("failed to get article likes by user: %w", err)
 	}
@@ -103,10 +103,10 @@ func (d *Dao) GetArticleLikesByUser(ctx context.Context, userId int64) ([]model.
 
 // 文章收藏模块
 
-// GetArticleFavoriteByUserAndArticle 根据 UserID 和 ArticleID 查询记录
-func (d *Dao) GetArticleFavoriteByUserAndArticle(ctx context.Context, userID, articleID int64) (*model.ArticleFavorite, error) {
+// GetArticleFavoriteByUserAndArticle 根据 Uid 和 ArticleID 查询记录
+func (d *Dao) GetArticleFavoriteByUserAndArticle(ctx context.Context, uid, articleID int64) (*model.ArticleFavorite, error) {
 	var articleFavorite model.ArticleFavorite
-	result := d.db.WithContext(ctx).Where("user_id = ? AND article_id = ?", userID, articleID).First(&articleFavorite)
+	result := d.db.WithContext(ctx).Where("uid = ? AND article_id = ?", uid, articleID).First(&articleFavorite)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return nil, nil // 未找到记录
@@ -136,7 +136,7 @@ func (d *Dao) UpdateArticleFavoriteStatus(ctx context.Context, id, newStatus int
 // GetArticleFavoriteByUser 根据用户ID查询收藏的文章列表
 func (d *Dao) GetArticleFavoriteByUser(ctx context.Context, userId int64) ([]model.ArticleFavorite, error) {
 	var articleFavoriteList []model.ArticleFavorite
-	err := d.db.WithContext(ctx).Where("user_id = ?", userId).Find(&articleFavoriteList).Error
+	err := d.db.WithContext(ctx).Where("uid = ?", userId).Find(&articleFavoriteList).Error
 	if err != nil {
 		return nil, fmt.Errorf("failed to get article likes by user: %w", err)
 	}

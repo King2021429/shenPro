@@ -62,12 +62,12 @@ func (s *Service) GetLikeList(ctx context.Context, req *model.LikeArticleListReq
 	resp = &model.LikeArticleListResp{}
 
 	// 检查请求参数
-	if req.UserId == 0 {
+	if req.Uid == 0 {
 		return nil, errorcode.ErrParam
 	}
 
 	// 根据用户ID查询点赞的文章列表
-	articleLikes, err := s.dao.GetArticleLikesByUser(ctx, req.UserId)
+	articleLikes, err := s.dao.GetArticleLikesByUser(ctx, req.Uid)
 	if err != nil {
 		fmt.Println(err)
 		return nil, errorcode.ErrParam

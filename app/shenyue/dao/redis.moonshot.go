@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	_rcKeyConversationId = "conversation_id:%d:user_id:%d"
+	_rcKeyConversationId = "conversation_id:%d:uid:%d"
 )
 
 func (d *Dao) RcSetConversation(ctx context.Context, conversationId, uid int64, value string) (err error) {

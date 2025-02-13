@@ -10,7 +10,7 @@ import (
 
 // AIConversationStart 开启会话
 func AIConversationStart(ctx *gin.Context) {
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	resp, _ := Svc.AIChatStart(ctx.Request.Context(), uid)
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
@@ -19,13 +19,13 @@ func AIConversationStart(ctx *gin.Context) {
 // AIConversationSendMsg 输入对话
 func AIConversationSendMsg(ctx *gin.Context) {
 	var conversationSendMsgReq model.ConversationSendMsgReq
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	err := ctx.ShouldBindJSON(&conversationSendMsgReq)
 	if err != nil {
 		fmt.Println(err)
 	}
-	conversationSendMsgReq.UserId = uid
+	conversationSendMsgReq.Uid = uid
 	resp, err := Svc.AIChatSendMsg(ctx.Request.Context(), &conversationSendMsgReq)
 	if err != nil {
 		fmt.Println(err)
@@ -37,13 +37,13 @@ func AIConversationSendMsg(ctx *gin.Context) {
 // AIConversationDelete 删除对话
 func AIConversationDelete(ctx *gin.Context) {
 	var conversationDeleteReq model.ConversationDeleteReq
-	uidStr := ctx.GetString("userID")
+	uidStr := ctx.GetString("Uid")
 	uid, _ := strconv.ParseInt(uidStr, 10, 64)
 	err := ctx.ShouldBindJSON(&conversationDeleteReq)
 	if err != nil {
 		fmt.Println(err)
 	}
-	conversationDeleteReq.UserId = uid
+	conversationDeleteReq.Uid = uid
 	resp, err := Svc.AIChatDelete(ctx.Request.Context(), &conversationDeleteReq)
 	if err != nil {
 		fmt.Println(err)

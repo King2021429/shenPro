@@ -12,7 +12,7 @@ type FavoriteArticleResp struct {
 
 // FavoriteArticleListReq 收藏文章列表请求结构体
 type FavoriteArticleListReq struct {
-	UserId int64 `json:"user_id"`
+	Uid int64 `json:"uid"`
 }
 
 // FavoriteArticleListResp 收藏文章列表响应结构体
