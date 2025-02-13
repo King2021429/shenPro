@@ -88,7 +88,6 @@ func (d *Dao) AIChatDeep(query string, history *[]model.Message) string {
 		Role:    "user",
 		Content: query,
 	})
-
 	// 拼接历史消息和当前用户输入作为完整的提示
 	prompt := ""
 	for _, msg := range *history {

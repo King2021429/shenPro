@@ -123,5 +123,23 @@ func LikeArticle(ctx *gin.Context) {
 }
 
 func GetLikeList(ctx *gin.Context) {
+	var likeArticleListReq model.LikeArticleListReq
+	err := ctx.ShouldBindJSON(&likeArticleListReq)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	uidStr := ctx.GetString("userID")
+	uid, _ := strconv.ParseInt(uidStr, 10, 64)
+	if uid == 0 {
+		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})
+		return
+	}
+	resp, errCode := Svc.GetLikeList(ctx.Request.Context(), &likeArticleListReq)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, gin.H{"error": errCode})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 
 }
