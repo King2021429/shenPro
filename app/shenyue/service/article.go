@@ -7,13 +7,13 @@ import (
 	"shenyue-gin/app/shenyue/model"
 )
 
-func (s *Service) CreateArticle(ctx context.Context, req *model.CreateArticleReq, uid int64) (resp *model.CreateArticleResp, err int64) {
+func (s *Service) CreateArticle(ctx context.Context, req *model.CreateArticleReq, Uid int64) (resp *model.CreateArticleResp, err int64) {
 	resp = &model.CreateArticleResp{}
-	if req.Title == "" || req.Content == "" || uid == 0 {
+	if req.Title == "" || req.Content == "" || Uid == 0 {
 		return nil, errorcode.ErrParam
 	}
 	newArticle := &model.Article{
-		UID:     uid,
+		Uid:     Uid,
 		Content: req.Content,
 		Title:   req.Title,
 	}
@@ -26,20 +26,20 @@ func (s *Service) CreateArticle(ctx context.Context, req *model.CreateArticleReq
 	return resp, 0
 }
 
-func (s *Service) EditArticle(ctx context.Context, req *model.EditArticleReq, uid int64) (resp *model.EditArticleResp, err error) {
+func (s *Service) EditArticle(ctx context.Context, req *model.EditArticleReq, Uid int64) (resp *model.EditArticleResp, err error) {
 	resp = &model.EditArticleResp{}
-	if req.Title == "" || req.Content == "" || uid == 0 {
+	if req.Title == "" || req.Content == "" || Uid == 0 {
 		return nil, nil
 	}
 	article, err := s.dao.GetArticleById(ctx, uint(req.ArticleId))
 	if err != nil {
 		return nil, err
 	}
-	if article.UID != uid {
+	if article.Uid != Uid {
 		return nil, nil
 	}
 	newArticle := &model.Article{
-		UID:     uid,
+		Uid:     Uid,
 		Content: req.Content,
 		Title:   req.Title,
 	}
@@ -65,13 +65,13 @@ func (s *Service) GetArticleList(ctx context.Context, req *model.GetArticleListR
 	return resp, nil
 }
 
-func (s *Service) DeleteArticle(ctx context.Context, req *model.DeleteArticleReq, uid int64) (resp *model.GetArticleListResp, err error) {
+func (s *Service) DeleteArticle(ctx context.Context, req *model.DeleteArticleReq, Uid int64) (resp *model.GetArticleListResp, err error) {
 	resp = &model.GetArticleListResp{}
 	article, err := s.dao.GetArticleById(ctx, uint(req.ArticleId))
 	if err != nil {
 		return nil, err
 	}
-	if article.UID != uid {
+	if article.Uid != Uid {
 		return nil, err
 	}
 	err = s.dao.DeleteArticle(ctx, uint(req.ArticleId))
@@ -83,13 +83,13 @@ func (s *Service) DeleteArticle(ctx context.Context, req *model.DeleteArticleReq
 }
 
 // GetArticleById 根据id获取文章
-func (s *Service) GetArticleById(ctx context.Context, req *model.GetArticleByIdReq, uid int64) (resp *model.GetArticleByIdResp, err error) {
+func (s *Service) GetArticleById(ctx context.Context, req *model.GetArticleByIdReq, Uid int64) (resp *model.GetArticleByIdResp, err error) {
 	resp = &model.GetArticleByIdResp{}
 	article, err := s.dao.GetArticleById(ctx, uint(req.ArticleId))
 	if err != nil {
 		return nil, err
 	}
-	if article.UID != uid {
+	if article.Uid != Uid {
 		return nil, err
 	}
 	article, err = s.dao.GetArticleById(ctx, uint(req.ArticleId))

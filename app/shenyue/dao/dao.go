@@ -53,7 +53,7 @@ func NewGorm(cfg *cfg.Config) (newdb *gorm.DB) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = newdb.AutoMigrate(&model.ArticleCollection{})
+	err = newdb.AutoMigrate(&model.ArticleFavorite{})
 	if err != nil {
 		fmt.Println(err)
 	}

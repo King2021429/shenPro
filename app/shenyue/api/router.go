@@ -52,8 +52,8 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/article/like/list", GetLikeList)   // 根据uid获取全部点赞/点踩文章
 
 		// 文章收藏相关接口
-		protectedGroup.POST("/article/collection/update", CreateArticleCollection) // 文章收藏/取消收藏
-		protectedGroup.POST("/article/collection/list", GetArticleCollectionList)  // 根据uid获取全部收藏文章
+		protectedGroup.POST("/article/favorite/update", FavoriteArticle) // 文章收藏/取消收藏
+		protectedGroup.POST("/article/favorite/list", GetFavoriteList)   // 根据uid获取全部收藏文章
 
 		// 评论相关接口
 		protectedGroup.POST("/comment/create", CreateComment)

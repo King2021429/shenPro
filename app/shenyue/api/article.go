@@ -122,6 +122,7 @@ func LikeArticle(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }
 
+// GetLikeList 根据用户id获取点赞列表
 func GetLikeList(ctx *gin.Context) {
 	var likeArticleListReq model.LikeArticleListReq
 	err := ctx.ShouldBindJSON(&likeArticleListReq)
@@ -142,4 +143,44 @@ func GetLikeList(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 
+}
+
+// FavoriteArticle 收藏文章
+func FavoriteArticle(ctx *gin.Context) {
+	var favoriteArticleReq model.FavoriteArticleReq
+	err := ctx.ShouldBindJSON(&favoriteArticleReq)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	uidStr := ctx.GetString("userID")
+	uid, _ := strconv.ParseInt(uidStr, 10, 64)
+	resp, errCode := Svc.FavoriteArticle(ctx.Request.Context(), &favoriteArticleReq, uid)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, gin.H{"error": errCode})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
+}
+
+// GetFavoriteList 根据用户id获取收藏列表
+func GetFavoriteList(ctx *gin.Context) {
+	var favoriteArticleListReq model.FavoriteArticleListReq
+	err := ctx.ShouldBindJSON(&favoriteArticleListReq)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	uidStr := ctx.GetString("userID")
+	uid, _ := strconv.ParseInt(uidStr, 10, 64)
+	if uid == 0 {
+		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})
+		return
+	}
+	resp, errCode := Svc.GetFavoriteList(ctx.Request.Context(), &favoriteArticleListReq)
+	if errCode != 0 {
+		ctx.JSON(http.StatusOK, gin.H{"error": errCode})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"data": resp})
 }

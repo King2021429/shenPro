@@ -18,7 +18,7 @@ type User struct {
 // Article 文章表结构体
 type Article struct {
 	gorm.Model
-	UID     int64  `gorm:"not null"`
+	Uid     int64  `gorm:"not null"`
 	Title   string `gorm:"not null"`
 	Content string `gorm:"not null"`
 	Cover   string `gorm:"not null"`
@@ -28,7 +28,7 @@ type Article struct {
 type Comment struct {
 	gorm.Model
 	ArticleID int64      `gorm:"not null" json:"article_id"`
-	Uid       int64      `gorm:"not null" json:"uid"`
+	Uid       int64      `gorm:"not null" json:"Uid"`
 	Content   string     `gorm:"type:text;not null" json:"content"`
 	ParentID  int64      `gorm:"default:0" json:"parent_id"`
 	Replies   []*Comment `gorm:"-" json:"replies"` // 使用 gorm:"-" 标记该字段不映射到数据库
@@ -43,18 +43,19 @@ type UserFollow struct {
 	Status     int64 `gorm:"default:0"`
 }
 
-// ArticleCollection 文章收藏表结构体
-type ArticleCollection struct {
+// ArticleFavorite 文章收藏表结构体
+type ArticleFavorite struct {
 	gorm.Model
-	UID       int64 `gorm:"not null"`
+	Uid       int64 `gorm:"not null"`
 	ArticleID int64 `gorm:"not null"`
+	Status    int64 `gorm:"default:0"`
 }
 
 // ArticleLike 文章点赞表结构体
 // status 0取消 1点赞 2点踩
 type ArticleLike struct {
 	gorm.Model
-	UserID    int64 `gorm:"not null"`
+	Uid       int64 `gorm:"not null"`
 	ArticleID int64 `gorm:"not null"`
 	Status    int64 `gorm:"default:0"`
 }
