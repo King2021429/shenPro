@@ -34,9 +34,6 @@ func (d *Dao) AIChat(query string, history *[]model.Message) string {
 	// 创建POST请求
 	client := &http.Client{}
 	url := d.c.Moonshot.Url
-	//url := "http://localhost:11434/api/generate"
-
-	//url := "https://api.moonshot.cn/v1/chat/completions" // 根据实际情况调整完整路径等
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
 		fmt.Println("创建请求失败:", err)

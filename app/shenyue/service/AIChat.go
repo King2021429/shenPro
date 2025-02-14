@@ -27,25 +27,38 @@ func (s *Service) AIChatStart(ctx context.Context, Uid int64) (resp *model.Conve
 		fmt.Println("转换为JSON字符串失败:", err)
 		return
 	}
-	err = s.dao.RcSetConversation(ctx, int64(randomNumber), Uid, string(jsonData))
+	aIChat := &model.AIChat{
+		Uid:                 Uid,
+		ConversationId:      int64(randomNumber),
+		ConversationContent: string(jsonData),
+	}
+	err = s.dao.CreateAIChat(aIChat)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(randomNumber)
+	//err = s.dao.RcSetConversation(ctx, int64(randomNumber), Uid, string(jsonData))
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
 	resp.ConversationId = int64(randomNumber)
 	return resp, nil
 }
 
 func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSendMsgReq) (resp *model.ConversationSendMsgResp, err error) {
 	resp = &model.ConversationSendMsgResp{}
-	value, err := s.dao.RcGetConversation(ctx, req.Uid, req.ConversationId)
+	//value, err := s.dao.RcGetConversation(ctx, req.Uid, req.ConversationId)
+	//if err != nil {
+	//	return resp, err
+	//}
+	aiChat, err := s.dao.GetAIChatByUidAndConversationId(req.Uid, req.ConversationId)
 	if err != nil {
 		return resp, err
 	}
 	// 将JSON字符串转换回结构体切片
 	var newHistory []model.Message
-	err = json.Unmarshal([]byte(value), &newHistory)
+	err = json.Unmarshal([]byte(aiChat.ConversationContent), &newHistory)
 	if err != nil {
 		fmt.Println("从JSON字符串转换回结构体失败:", err)
 		return resp, err
@@ -57,22 +70,40 @@ func (s *Service) AIChatSendMsg(ctx context.Context, req *model.ConversationSend
 		fmt.Println("转换为JSON字符串失败:", err)
 		return
 	}
-	err = s.dao.RcSetConversation(ctx, req.ConversationId, req.Uid, string(jsonData))
+	err = s.dao.UpdateConversationContent(req.Uid, req.ConversationId, string(jsonData))
 	if err != nil {
-		fmt.Println(err)
-		return
+		return resp, err
 	}
+	//err = s.dao.RcSetConversation(ctx, req.ConversationId, req.Uid, string(jsonData))
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
 	resp.Reply = res
-	fmt.Println(res)
 	return resp, nil
 }
 
 func (s *Service) AIChatDelete(ctx context.Context, req *model.ConversationDeleteReq) (resp *model.ConversationDeleteResp, err error) {
 	resp = &model.ConversationDeleteResp{}
-	err = s.dao.RcDelConversation(ctx, req.ConversationId, req.Uid)
+	err = s.dao.DeleteAIChat(req.Uid, req.ConversationId)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	//err = s.dao.RcDelConversation(ctx, req.ConversationId, req.Uid)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	return resp, nil
+}
+
+func (s *Service) AIChatList(ctx context.Context, req *model.ConversationListReq) (resp *model.ConversationListResp, err error) {
+	resp = &model.ConversationListResp{}
+	list, err := s.dao.GetAIChatList(req.Uid)
+	if err != nil {
+		return resp, err
+	}
+	resp.List = list
 	return resp, nil
 }

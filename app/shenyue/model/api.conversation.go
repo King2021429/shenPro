@@ -25,3 +25,11 @@ type ConversationDeleteReq struct {
 
 type ConversationDeleteResp struct {
 }
+
+type ConversationListReq struct {
+	Uid int64 `json:"uid"`
+}
+
+type ConversationListResp struct {
+	List []AIChat `json:"list"`
+}

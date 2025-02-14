@@ -61,6 +61,10 @@ func NewGorm(cfg *cfg.Config) (newdb *gorm.DB) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	err = newdb.AutoMigrate(&model.AIChat{})
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return newdb
 }

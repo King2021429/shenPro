@@ -61,11 +61,11 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/comment/edit", EditComment)
 		protectedGroup.POST("/comment/getList", GetCommentList)
 
-		// AI的三个
+		// AI对话
 		protectedGroup.POST("/ai/conversation_start", AIConversationStart)
 		protectedGroup.POST("/ai/conversation_send_msg", AIConversationSendMsg)
 		protectedGroup.POST("/ai/conversation_delete", AIConversationDelete)
-		// ai对话列表 根据用户来查询
+		protectedGroup.POST("/ai/conversation_list", AIConversationList)
 
 	}
 

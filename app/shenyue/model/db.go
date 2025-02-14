@@ -60,6 +60,14 @@ type ArticleLike struct {
 	Status    int64 `gorm:"default:0"`
 }
 
+// AIChat AI聊天表结构体
+type AIChat struct {
+	gorm.Model
+	Uid                 int64  `gorm:"not null"`
+	ConversationContent string `gorm:"type:text;charset=utf8mb4;collation=utf8mb4_unicode_ci"`
+	ConversationId      int64  `gorm:"not null"`
+}
+
 //GORM 通过结构体字段标签和内部约定来识别和处理
 //gorm.Model 中的各个字段。
 //在创建、更新和删除记录时，GORM 会根据这些规则自动完成相应的操作
