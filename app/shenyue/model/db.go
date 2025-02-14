@@ -10,9 +10,9 @@ type User struct {
 	gorm.Model
 	Username string `gorm:"unique;not null"`
 	Password string `gorm:"not null"`
-	Email    string
-	Avatar   string
-	Status   int64 `gorm:"default:0"`
+	Email    string `gorm:"not null"`
+	Avatar   string `gorm:"not null"`
+	Status   int64  `gorm:"default:0"`
 }
 
 // Article 文章表结构体

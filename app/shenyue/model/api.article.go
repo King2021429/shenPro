@@ -41,3 +41,12 @@ type GetArticleByIdReq struct {
 type GetArticleByIdResp struct {
 	Article Article `json:"article_api"`
 }
+
+type ArticleToUser struct {
+	// 文章信息
+	Uid     int64  `json:"uid"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+	Cover   string `json:"cover"`
+	// 文章作者信息
+}
