@@ -29,6 +29,15 @@ func (d *Dao) SelectAllEmail(ctx context.Context) ([]string, error) {
 	return emails, nil
 }
 
+func (d *Dao) SelectByUid(ctx context.Context, uid int64) (user model.User, err error) {
+	// 查询db
+	err = d.db.Where("uid = ?", uid).First(&user).Error
+	if err != nil {
+		fmt.Println()
+	}
+	return user, nil
+}
+
 func (d *Dao) SelectByUsername(ctx context.Context, username string) (user *model.User, err error) {
 	// 查询db
 	err = d.db.Where("username = ?", username).First(&user).Error

@@ -54,13 +54,13 @@ func loginUser(c *gin.Context) {
 
 // 获取用户信息
 func getUserInfo(c *gin.Context) {
-	uid := c.GetString("uid")
-	id, err := strconv.Atoi(uid)
-	if err != nil || id == 0 {
+	uidStr := c.GetString("uid")
+	uid, err := strconv.Atoi(uidStr)
+	if err != nil || uid <= 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "无效的用户 ID"})
 		return
 	}
-	user, err := Svc.FindUserInfo(c.Request.Context(), uint(id))
+	user, err := Svc.FindUserInfo(c.Request.Context(), int64(uid))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "用户未找到"})
 		return

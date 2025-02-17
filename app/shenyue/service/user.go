@@ -12,10 +12,7 @@ func (s *Service) SaveUser(ctx context.Context, req *model.User) (err error) {
 	if req.Username == "" || req.Password == "" {
 		return fmt.Errorf("param wrong")
 	}
-	uid, err := utils.GenerateUserID()
-	if err != nil {
-		return err
-	}
+	uid := utils.GenerateUserId()
 	user := &model.User{
 		Uid:      uid,
 		Username: req.Username,
@@ -41,8 +38,8 @@ func (s *Service) LoginUser(ctx context.Context, req *model.User) (uid int64, er
 	return user.Uid, nil
 }
 
-func (s *Service) FindUserInfo(ctx context.Context, userId uint) (user model.User, err error) {
-	user, err = s.dao.GetUser(ctx, userId)
+func (s *Service) FindUserInfo(ctx context.Context, uid int64) (user model.User, err error) {
+	user, err = s.dao.SelectByUid(ctx, uid)
 	if err != nil {
 		return user, fmt.Errorf("username not exist")
 	}
