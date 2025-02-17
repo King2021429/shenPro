@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"shenyue-gin/app/shenyue/model"
+	"shenyue-gin/app/shenyue/utils"
 	"sync"
 )
 
@@ -11,7 +12,12 @@ func (s *Service) SaveUser(ctx context.Context, req *model.User) (err error) {
 	if req.Username == "" || req.Password == "" {
 		return fmt.Errorf("param wrong")
 	}
+	uid, err := utils.GenerateUserID()
+	if err != nil {
+		return err
+	}
 	user := &model.User{
+		Uid:      uid,
 		Username: req.Username,
 		Password: req.Password,
 		Email:    req.Email,
@@ -23,7 +29,7 @@ func (s *Service) SaveUser(ctx context.Context, req *model.User) (err error) {
 	return
 }
 
-func (s *Service) LoginUser(ctx context.Context, req *model.User) (uid uint, err error) {
+func (s *Service) LoginUser(ctx context.Context, req *model.User) (uid int64, err error) {
 	user, err := s.dao.SelectByUsername(ctx, req.Username)
 	if err != nil {
 		return 0, fmt.Errorf("username not exist")
@@ -32,7 +38,7 @@ func (s *Service) LoginUser(ctx context.Context, req *model.User) (uid uint, err
 	if user == nil || user.Password != req.Password {
 		return 0, fmt.Errorf("password not exist")
 	}
-	return user.ID, nil
+	return user.Uid, nil
 }
 
 func (s *Service) FindUserInfo(ctx context.Context, userId uint) (user model.User, err error) {

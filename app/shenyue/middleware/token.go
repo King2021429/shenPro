@@ -15,7 +15,7 @@ import (
 const jwtSecret = "ced2850a8efb4b52aa5db779152fca5d"
 
 // GenerateToken 生成 JWT 令牌
-func GenerateToken(uid uint) (string, error) {
+func GenerateToken(uid int64) (string, error) {
 	claims := &jwt.StandardClaims{
 		Issuer:    strconv.Itoa(int(uid)),
 		ExpiresAt: time.Now().Add(time.Hour * 12).Unix(),
