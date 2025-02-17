@@ -8,6 +8,7 @@ import (
 // Status 0 用户 1 admin
 type User struct {
 	gorm.Model
+	Uid      int64  `gorm:"unique;not null"`
 	Username string `gorm:"unique;not null"`
 	Password string `gorm:"not null"`
 	Email    string `gorm:"not null"`

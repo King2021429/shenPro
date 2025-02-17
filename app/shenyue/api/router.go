@@ -31,8 +31,6 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		// 用户 注册 登陆
 		userGroup.POST("/register", registerUser)
 		userGroup.POST("/login", loginUser)
-
-		// 查询文章列表
 	}
 
 	// 需要用户登陆态
@@ -59,7 +57,7 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/comment/create", CreateComment)
 		protectedGroup.POST("/comment/delete", DeleteComment)
 		protectedGroup.POST("/comment/edit", EditComment)
-		protectedGroup.POST("/comment/getList", GetCommentList)
+		protectedGroup.POST("/comment/getList", GetCommentList) // 根据文章id获取评论列表
 
 		// AI对话
 		protectedGroup.POST("/ai/conversation_start", AIConversationStart)
@@ -74,6 +72,7 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	{
 		adminGroup.GET("/id/:id", TestId)
 		// 管理文章
+		// 管理用户
 
 	}
 
