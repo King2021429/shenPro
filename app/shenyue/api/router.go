@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"shenyue-gin/app/shenyue/middleware"
@@ -14,6 +15,8 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	e = gin.Default()
 	// 允许所有来源的跨域请求
 	e.Use(CORS())
+	e.Use(commonAOP)
+	e.Use(testAOP)
 
 	// 公共路由
 	publicGroup := e.Group("/")
@@ -93,4 +96,29 @@ func CORS() gin.HandlerFunc {
 
 		c.Next()
 	}
+}
+
+// commonAOP 公共AOP 这里可以进行一些上报操作
+func commonAOP(ctx *gin.Context) {
+
+	ctx.Next()
+	fmt.Println("test")
+}
+
+func testAOP(ctx *gin.Context) {
+	//middleware.AuthMiddleware(ctx)
+	fmt.Println("test")
+	//if ctx.IsAborted() {
+	//	return
+	//}
+	url := ctx.Request.URL.String()
+	if url == "/protected/user/getUserInfo" {
+		//AIConversationList(ctx)
+		//ctx.JSON(http.StatusUnauthorized, gin.H{"error": "有趣"})
+
+	}
+
+	fmt.Println(url)
+	ctx.Abort()
+
 }

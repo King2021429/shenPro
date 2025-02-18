@@ -13,6 +13,7 @@ import (
 func main() {
 	// 初始化配置文件
 	configs.InitConfig()
+	// 获取配置文件
 	config := configs.GetConfig()
 	// 初始化service service里面会初始化dao
 	newService := service.NewService(config)
