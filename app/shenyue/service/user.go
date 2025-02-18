@@ -46,7 +46,7 @@ func (s *Service) FindUserInfo(ctx context.Context, uid int64) (user model.User,
 	return user, nil
 }
 
-func (s *Service) SendUserEmail(ctx context.Context) (err int64) {
+func (s *Service) SendUserEmail(ctx context.Context) (err error) {
 	res, _ := s.dao.SelectAllEmail(ctx)
 	var wg sync.WaitGroup
 	// 设置要等待的协程数量为邮箱数量
