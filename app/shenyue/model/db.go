@@ -45,6 +45,7 @@ type UserFollow struct {
 }
 
 // ArticleFavorite 文章收藏表结构体
+// status 0取消 1点赞 收藏
 type ArticleFavorite struct {
 	gorm.Model
 	Uid       int64 `gorm:"not null"`

@@ -115,5 +115,19 @@ func (s *Service) GetArticleById(ctx context.Context, req *model.GetArticleByIdR
 	resp.ArticleToUser.Username = user.Username
 	resp.ArticleToUser.Avatar = user.Avatar
 
+	// 是否点赞
+	like, errDb := s.dao.GetArticleLikeByUserAndArticle(ctx, Uid, req.ArticleId)
+	if errDb != nil {
+		fmt.Println(errDb)
+		return nil, errorcode.ERROR
+	}
+	resp.ArticleToUser.LikeStatus = like.Status
+	// 是否收藏
+	favorite, errDb := s.dao.GetArticleFavoriteByUserAndArticle(ctx, Uid, req.ArticleId)
+	if errDb != nil {
+		fmt.Println(errDb)
+		return nil, errorcode.ERROR
+	}
+	resp.ArticleToUser.FavoriteStatus = favorite.Status
 	return resp, 0
 }

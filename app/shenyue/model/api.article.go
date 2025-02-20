@@ -52,7 +52,7 @@ type ArticleToUser struct {
 	Username string `json:"username"`
 	Avatar   string `json:"avatar"`
 	// 是否点赞
-	IsLike bool `json:"is_like"`
+	LikeStatus int64 `json:"like_status"`
 	// 是否收藏
-	IsFavorite bool `json:"is_favorite"`
+	FavoriteStatus int64 `json:"favorite_status"`
 }
