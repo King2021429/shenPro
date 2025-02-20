@@ -39,7 +39,7 @@ type GetArticleByIdReq struct {
 }
 
 type GetArticleByIdResp struct {
-	Article Article `json:"article_api"`
+	ArticleToUser ArticleToUser `json:"article_to_user"`
 }
 
 type ArticleToUser struct {
@@ -49,4 +49,10 @@ type ArticleToUser struct {
 	Content string `json:"content"`
 	Cover   string `json:"cover"`
 	// 文章作者信息
+	Username string `json:"username"`
+	Avatar   string `json:"avatar"`
+	// 是否点赞
+	IsLike bool `json:"is_like"`
+	// 是否收藏
+	IsFavorite bool `json:"is_favorite"`
 }

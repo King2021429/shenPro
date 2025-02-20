@@ -84,7 +84,9 @@ func (s *Service) DeleteArticle(ctx context.Context, req *model.DeleteArticleReq
 
 // GetArticleById 根据id获取文章
 func (s *Service) GetArticleById(ctx context.Context, req *model.GetArticleByIdReq, Uid int64) (resp *model.GetArticleByIdResp, err int64) {
-	resp = &model.GetArticleByIdResp{}
+	resp = &model.GetArticleByIdResp{
+		ArticleToUser: model.ArticleToUser{},
+	}
 	article, errDb := s.dao.GetArticleById(ctx, uint(req.ArticleId))
 	if errDb != nil {
 		return nil, errorcode.ERROR
@@ -97,6 +99,21 @@ func (s *Service) GetArticleById(ctx context.Context, req *model.GetArticleByIdR
 		fmt.Println(errDb)
 		return nil, errorcode.ERROR
 	}
-	resp.Article = article
+	if article.Uid != Uid {
+		return nil, errorcode.ERROR
+	}
+	resp.ArticleToUser.Uid = article.Uid
+	resp.ArticleToUser.Title = article.Title
+	resp.ArticleToUser.Content = article.Content
+	resp.ArticleToUser.Cover = article.Cover
+
+	user, errDb := s.dao.SelectByUid(ctx, article.Uid)
+	if errDb != nil {
+		fmt.Println(errDb)
+		return nil, errorcode.ERROR
+	}
+	resp.ArticleToUser.Username = user.Username
+	resp.ArticleToUser.Avatar = user.Avatar
+
 	return resp, 0
 }

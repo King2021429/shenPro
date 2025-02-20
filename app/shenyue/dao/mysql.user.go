@@ -11,13 +11,6 @@ func (d *Dao) CreateUser(ctx context.Context, user *model.User) error {
 	return d.db.Create(&user).Error
 }
 
-// 获取用户
-func (d *Dao) GetUser(ctx context.Context, id uint) (model.User, error) {
-	var user model.User
-	err := d.db.First(&user, id).Error
-	return user, err
-}
-
 func (d *Dao) SelectAllEmail(ctx context.Context) ([]string, error) {
 	// 查询所有用户的email字段值
 	var emails []string
