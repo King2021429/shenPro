@@ -15,8 +15,8 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 	e = gin.Default()
 	// 允许所有来源的跨域请求
 	e.Use(CORS())
-	e.Use(commonAOP)
-	e.Use(testAOP)
+	//e.Use(commonAOP)
+	//e.Use(testAOP)
 
 	// 公共路由
 	publicGroup := e.Group("/")
@@ -57,16 +57,16 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/article/favorite/list", GetFavoriteList)   // 根据uid获取全部收藏文章
 
 		// 评论相关接口
-		protectedGroup.POST("/comment/create", CreateComment)
-		protectedGroup.POST("/comment/delete", DeleteComment)
-		protectedGroup.POST("/comment/edit", EditComment)
+		protectedGroup.POST("/comment/create", CreateComment)   // 创建评论
+		protectedGroup.POST("/comment/delete", DeleteComment)   // 删除评论
+		protectedGroup.POST("/comment/edit", EditComment)       // 编辑评论
 		protectedGroup.POST("/comment/getList", GetCommentList) // 根据文章id获取评论列表
 
 		// AI对话
-		protectedGroup.POST("/ai/conversation_start", AIConversationStart)
-		protectedGroup.POST("/ai/conversation_send_msg", AIConversationSendMsg)
-		protectedGroup.POST("/ai/conversation_delete", AIConversationDelete)
-		protectedGroup.POST("/ai/conversation_list", AIConversationList)
+		protectedGroup.POST("/ai/conversation_start", AIConversationStart)      // 创建对话
+		protectedGroup.POST("/ai/conversation_send_msg", AIConversationSendMsg) // 发送消息
+		protectedGroup.POST("/ai/conversation_delete", AIConversationDelete)    // 删除对话
+		protectedGroup.POST("/ai/conversation_list", AIConversationList)        // 获取对话列表
 
 	}
 
@@ -84,10 +84,11 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 
 func CORS() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		// 设置允许访问的域名，这里可以根据实际情况修改，例如改为具体的前端域名
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content - Type, Content - Length, Accept - Encoding, X - CSRF - Token, Authorization, accept, origin, Cache - Control, X - Requested - With")
-		// 只允许"POST, GET"请求
+		// 去除多余的空格
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type,Content-Length,Accept-Encoding,X-CSRF-Token,Authorization,accept,origin,Cache-Control,X-Requested-With")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 		if c.Request.Method == "OPTIONS" {
 			c.JSON(http.StatusOK, gin.H{"message": "Options请求成功"})
