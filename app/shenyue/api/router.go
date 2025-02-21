@@ -29,11 +29,15 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		publicGroup.POST("test/path/*path", TestPath)
 	}
 
+	// 不需要登陆态
 	userGroup := e.Group("/user")
 	{
 		// 用户 注册 登陆
 		userGroup.POST("/register", registerUser)
 		userGroup.POST("/login", loginUser)
+
+		// 获取文章列表
+		userGroup.POST("/article/getList", GetArticleList)
 	}
 
 	// 需要用户登陆态
@@ -45,7 +49,6 @@ func InitHttpRouter(s *service.Service) (e *gin.Engine) {
 		protectedGroup.POST("/article/create", CreateArticle)
 		protectedGroup.POST("/article/delete", DeleteArticle)
 		protectedGroup.POST("/article/edit", EditArticle)
-		protectedGroup.POST("/article/getList", GetArticleList)
 		protectedGroup.POST("/article/getInfo", GetArticleInfo)
 
 		// 文章点赞相关接口

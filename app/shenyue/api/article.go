@@ -72,12 +72,6 @@ func GetArticleList(ctx *gin.Context) {
 		return
 	}
 
-	uidStr := ctx.GetString("uid")
-	uid, _ := strconv.ParseInt(uidStr, 10, 64)
-	if uid == 0 {
-		ctx.JSON(http.StatusOK, gin.H{"error": "uid为0"})
-		return
-	}
 	resp, errCode := Svc.GetArticleList(ctx.Request.Context(), &getArticleListReq)
 	if errCode != 0 {
 		ctx.JSON(http.StatusOK, errorcode.BuildErrorResponse(ctx, errCode))

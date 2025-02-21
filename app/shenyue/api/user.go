@@ -73,7 +73,6 @@ func getUserInfo(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, user)
-
 }
 
 // 获取管理员仪表盘信息
